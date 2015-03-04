@@ -1,59 +1,57 @@
 package com.ckt.shrimp.wosaosao;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
-public class WosaoActivity extends ActionBarActivity implements View.OnClickListener {
+public class ScanningActivity extends ActionBarActivity implements View.OnClickListener {
+    private Button mButtonScanISbn;
+    private Button mButtonScanStuff;
 
-    private Button mBookLending;
-    private Button mBookReturn;
-    private Button mBookExport;
-    private static final String SCANNING_CLASS = "./ScanningActivity";
+    private TextView mTextScanIsbn;
+    private TextView mTextScanStuff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wosao);
+        setContentView(R.layout.activity_scaning);
 
-        //init the buttons
-        mBookLending = (Button)findViewById(R.id.book_lending);
-        mBookReturn = (Button)findViewById(R.id.book_return);
-        mBookExport = (Button)findViewById(R.id.book_export);
+        //init the layout
+        mButtonScanISbn = (Button)findViewById(R.id.scan_ISBN);
+        mButtonScanStuff = (Button)findViewById(R.id.scan_staff_info);
 
-        mBookLending.setOnClickListener(this);
-        mBookReturn.setOnClickListener(this);
-        mBookExport.setOnClickListener(this);
+        mTextScanIsbn = (TextView)findViewById(R.id.scan_ISBN_result);
+        mTextScanStuff = (TextView)findViewById(R.id.scan_stuff_result);
+
+        mButtonScanISbn.setOnClickListener(this);
+        mButtonScanStuff.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View view) {
+        //both call the same api of zxing.
         int viewId = view.getId();
-
         switch(viewId) {
-            case R.id.book_lending:
-            case R.id.book_return:
-                Intent intent = new Intent(WosaoActivity.this, ScanningActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.book_export:
+            case R.id.scan_ISBN:
+            case R.id.scan_staff_info:
+                //call zxing API
                 break;
             default:
                 break;
 
         }
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_wosao, menu);
+        getMenuInflater().inflate(R.menu.menu_scaning, menu);
         return true;
     }
 

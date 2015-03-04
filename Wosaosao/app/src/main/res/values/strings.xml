@@ -4,5 +4,16 @@
     <string name="app_name">Wosaosao</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="main_string">Books Lending System</string>
+    <string name="book_lending">Lending Books</string>
+    <string name="book_return">Return Books</string>
+    <string name="book_export">Export to File</string>
+
+    <string name="title_activity_scanning">ScanningActivity</string>
+    <string name="scan_result_title">Scanning Result </string>
+    <string name="scan_ISBN">Scanning Books</string>
+    <string name="scan_staff">Scanning Staff Info</string>
+
+    <string name="scan_result_sample">This is a sample text for result!!!</string>
 
 </resources>

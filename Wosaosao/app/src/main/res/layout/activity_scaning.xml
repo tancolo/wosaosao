@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.ckt.shrimp.wosaosao.ScaningActivity">
+
+    <TextView
+        android:id="@+id/app_title"
+        android:text="@string/main_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/scan_books_container"
+        android:layout_below="@id/app_title"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:id="@+id/scan_ISBN"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_ISBN"
+            android:textSize="20sp"
+            android:layout_margin="5dp"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/scan_result_title"
+            />
+        <TextView
+            android:id="@+id/scan_ISBN_result"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/scan_result_sample"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/scan_staff_container"
+        android:layout_below="@id/scan_books_container"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:id="@+id/scan_staff_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_staff"
+            android:textSize="20sp"
+            android:layout_margin="5dp"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/scan_result_title"
+            />
+        <TextView
+            android:id="@+id/scan_stuff_result"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/scan_result_sample"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

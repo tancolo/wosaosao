@@ -1,5 +1,5 @@
 package com.ckt.shrimp.database;
-
+/**
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -13,12 +13,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
-
+*/
 /**
  * Created by ckt on 3/8/15.
  */
-public class DataBaseProvider extends ContentProvider {
-
+//not use it any more.
+public class DataBaseProvider /*extends ContentProvider*/ {
+/**
     private static final String AUTHORIY = "com.ckt.shrimp.database.DataBaseProvider";
     private static final String DATABASE_NAME = "lendbook.db";
     private static final int DATABASE_VERSION = 1;
@@ -50,13 +51,13 @@ public class DataBaseProvider extends ContentProvider {
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
         private Context mContext;
-
+*/
         /**
          * DatabaseHelper helper class for creating books and stuff tables into a database.
          *
          * @param context of the user.
          */
-        public DatabaseHelper(Context context) {
+/*        public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             mContext = context;
         }
@@ -121,7 +122,7 @@ public class DataBaseProvider extends ContentProvider {
                     + SubscriptionManager.NETWORK_MODE+ " INTEGER DEFAULT " + SubscriptionManager.DEFAULT_NW_MODE
                     + ");");
                     */
-            if (DBG) log("dbh.createBooksInfoTable:-");
+/*            if (DBG) log("dbh.createBooksInfoTable:-");
         }
 
         private void createStuffInfoTable(SQLiteDatabase db) {
@@ -531,16 +532,18 @@ public class DataBaseProvider extends ContentProvider {
         return count;
     }
 
-
+*/
     /**
      * Log with debug
      *
      * @param s is string log
      */
+    /*
     private static void log(String s) {
         Log.d(TAG, s);
     }
     private static void loge(String s) {
         Log.e(TAG, s);
     }
+*/
 }

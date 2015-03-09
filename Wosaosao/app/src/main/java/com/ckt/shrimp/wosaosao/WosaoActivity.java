@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.ckt.shrimp.export2file.TestLoadRawTxtFile;
+
 
 public class WosaoActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -15,6 +17,7 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
     private Button mBookReturn;
     private Button mBookExport;
     private static final String SCANNING_CLASS = "./ScanningActivity";
+    //private static final String BOOK_TEST_CLASS = "./ScanningActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.book_export:
+                TestLoadRawTxtFile txtFile = new TestLoadRawTxtFile();
+                txtFile.loadRawTxt();
                 break;
             default:
                 break;

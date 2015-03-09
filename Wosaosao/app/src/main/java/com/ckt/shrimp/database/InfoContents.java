@@ -25,6 +25,27 @@ public final class InfoContents implements BaseColumns {
     //图书价格
     public static final String BOOK_PRICE = "book_price";
 
+    //图书所属类别
+    public static final String BOOK_CATEGORY = "book_category";
+    //图书所属类别编号
+    public static final String BOOK_CATEGORY_ID = "book_category_id";
+    //图书购买时间
+    public static final String BOOK_BOUGHT_TIME = "book_bought_time";
+    //图书申请购买部门
+    public static final String BOOK_APPLICANT_DEPARTMENT = "book_applicant_dep";
+    //图书购买申请者
+    public static final String BOOK_APPLICANT = "book_applicant";
+    //图书实际购买金额
+    public static final String BOOK_ACTUAL_PRICE_ = "book_actual_price";
+    //图书借阅部门
+    public static final String BOOK_BORROWING_DEP = "book_lending_dep";
+    //图书借阅人
+    public static final String BOOK_BORROWER = "book_borrower";
+    //图书借出时间
+    public static final String BOOK_BORROWING_DATE = "book_lending_date";
+    //图书列表编号
+    public static final String BOOK_INDEX = "book_index";
+
     /**
     //可以扩展的字段
     //作者信息

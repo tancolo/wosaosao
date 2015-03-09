@@ -42,7 +42,7 @@ public class Book implements Parcelable {
     private String Summary;
     //图书图片
     private Bitmap Bitmap;
-
+//add something as you like.
 
     //id
     public String getId() {

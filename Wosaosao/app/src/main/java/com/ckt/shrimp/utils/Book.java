@@ -42,7 +42,113 @@ public class Book implements Parcelable {
     private String Summary;
     //图书图片
     private Bitmap Bitmap;
-//add something as you like.
+
+
+   //add something as you like.
+
+    //图书所属类别
+    private String booKCategory;
+    //图书所属类别编号
+    private String bookCategoryId;
+    //图书购买时间
+    private String bookBoughtDate;
+    //图书申请购买部门
+    private String bookApplicantDep;
+    //图书购买申请者
+    private String bookApplicant;
+    //图书实际购买金额
+    private String bookActualPrice;
+    //图书借阅部门
+    private String bookBorrowerDep;
+    //图书借阅人
+    private String bookBorrower;
+    //图书借出时间
+    private String bookBorrowingDate;
+    //借书者id
+    private String staffId;
+
+    public String getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
+    }
+
+    public String getBooKCategory() {
+        return booKCategory;
+    }
+
+    public void setBooKCategory(String booKCategory) {
+        this.booKCategory = booKCategory;
+    }
+
+    public String getBookCategoryId() {
+        return bookCategoryId;
+    }
+
+    public void setBookCategoryId(String bookCategoryId) {
+        this.bookCategoryId = bookCategoryId;
+    }
+
+    public String getBookBoughtDate() {
+        return bookBoughtDate;
+    }
+
+    public void setBookBoughtDate(String bookBoughtDate) {
+        this.bookBoughtDate = bookBoughtDate;
+    }
+
+    public String getBookApplicantDep() {
+        return bookApplicantDep;
+    }
+
+    public void setBookApplicantDep(String bookApplicantDep) {
+        this.bookApplicantDep = bookApplicantDep;
+    }
+
+    public String getBookApplicant() {
+        return bookApplicant;
+    }
+
+    public void setBookApplicant(String bookApplicant) {
+        this.bookApplicant = bookApplicant;
+    }
+
+    public String getBookActualPrice() {
+        return bookActualPrice;
+    }
+
+    public void setBookActualPrice(String bookActualPrice) {
+        this.bookActualPrice = bookActualPrice;
+    }
+
+    public String getBookBorrowerDep() {
+        return bookBorrowerDep;
+    }
+
+    public void setBookBorrowerDep(String bookBorrowerDep) {
+        this.bookBorrowerDep = bookBorrowerDep;
+    }
+
+    public String getBookBorrower() {
+        return bookBorrower;
+    }
+
+    public void setBookBorrower(String bookBorrower) {
+        this.bookBorrower = bookBorrower;
+    }
+
+    public String getBookBorrowingDate() {
+        return bookBorrowingDate;
+    }
+
+    public void setBookBorrowingDate(String bookBorrowingDate) {
+        this.bookBorrowingDate = bookBorrowingDate;
+    }
+
+
+
 
     //id
     public String getId() {

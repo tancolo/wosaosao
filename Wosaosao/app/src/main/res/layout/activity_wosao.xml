@@ -67,7 +67,15 @@
             android:textSize="20sp"
             android:layout_margin="10dp"
             />
-
+	    <!-- jerry added--> 
+        <Button
+            android:id="@+id/borrow_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="borrow_direct"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            />
      </LinearLayout>
 
 </RelativeLayout>

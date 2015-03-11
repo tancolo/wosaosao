@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+
+import com.ckt.shrimp.wosaosao.ScanningActivity;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +21,11 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class BookUtil {
+
+   public final static String bookAuthority = "com.ckt.saosao.authority";
+   public final static Uri BOOK_URI = Uri.parse("content://"+bookAuthority+"/book");
+   public final static Uri EMPLOYEE_URI = Uri.parse("content://"+bookAuthority+"/staff");
+   public final static Uri BORROW_URI = Uri.parse("content://"+bookAuthority+"/borrow");
 
     /**
      * 请求某个url上的图片资源

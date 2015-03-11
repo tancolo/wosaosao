@@ -39,5 +39,9 @@
     <string name="staff_put_in">Stuffs Put In</string>
 
     <string name="add_all_info">Add All info to DB</string>
+    
+    <!-- jerry added -->
+    <string name="title_activity_show_borrow">ShowBorrowActivity</string>
+    <string name="title_activity_borrow_detail">BorrowDetailActivity</string>
 
 </resources>

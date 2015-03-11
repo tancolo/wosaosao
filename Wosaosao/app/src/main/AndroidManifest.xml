@@ -44,6 +44,20 @@
             android:name=".BooksPutIn"
             android:label="@string/title_activity_books_put_in" >
         </activity>
+<!-- jerry added-->
+        <provider
+            android:name="com.ckt.shrimp.utils.MyDbProvider"
+            android:authorities="com.ckt.saosao.authority"
+            android:exported="false" />
+
+        <activity
+            android:name=".ShowBorrowActivity"
+            android:label="@string/title_activity_show_borrow" >
+        </activity>
+        <activity
+            android:name=".BorrowDetailActivity"
+            android:label="@string/title_activity_borrow_detail" >
+        </activity>
     </application>
 
 </manifest>

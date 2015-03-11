@@ -44,4 +44,9 @@
     <string name="title_activity_show_borrow">ShowBorrowActivity</string>
     <string name="title_activity_borrow_detail">BorrowDetailActivity</string>
 
+    <!-- add the year, month, day strings -->
+    <string name="year">Year</string>
+    <string name="month">Month</string>
+    <string name="day">Day</string>
+
 </resources>

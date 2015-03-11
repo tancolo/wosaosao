@@ -31,7 +31,6 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
 	
 	//jerry
     private Button mBorrowTable;
-
     MyBookDataBaseHelper bookHelper;
 
     private static final String SCANNING_CLASS = "./ScanningActivity";

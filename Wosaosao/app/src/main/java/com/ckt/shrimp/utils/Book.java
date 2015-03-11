@@ -42,10 +42,11 @@ public class Book implements Parcelable {
     private String Summary;
     //图书图片
     private Bitmap Bitmap;
-
+    //借书者id
+    private String staffId;
 
    //add something as you like.
-
+   //add other book info.
     //图书所属类别
     private String booKCategory;
     //图书所属类别编号
@@ -64,8 +65,7 @@ public class Book implements Parcelable {
     private String bookBorrower;
     //图书借出时间
     private String bookBorrowingDate;
-    //借书者id
-    private String staffId;
+
 
     public String getStaffId() {
         return staffId;
@@ -146,9 +146,6 @@ public class Book implements Parcelable {
     public void setBookBorrowingDate(String bookBorrowingDate) {
         this.bookBorrowingDate = bookBorrowingDate;
     }
-
-
-
 
     //id
     public String getId() {
@@ -304,6 +301,7 @@ public class Book implements Parcelable {
             bookInfo.Rate = source.readString();
             bookInfo.Tag = source.readString();
             bookInfo.Content = source.readString();
+            //add other book info.but I don't add those info at present.
             return bookInfo;
         }
         public Book[] newArray(int size) {
@@ -331,6 +329,39 @@ public class Book implements Parcelable {
         dest.writeString(Rate);
         dest.writeString(Tag);
         dest.writeString(Content);
+        //add other book info.but I don't add those info at present.
+    }
+
+    //init all strings to ""
+    public Book() {
+        //the ISBN info
+        id = "";
+        Title = "";
+        SubTitle = "";
+        Author = "";
+        AuthorInfo = "";
+        Publisher = "";
+        PublishDate = "";
+        ISBN = "";
+        Price = "";
+        Page = "";
+        Rate = "";
+        Tag = "";
+        Content = "";
+        Summary = "";
+        Bitmap = null;
+        staffId = "";
+
+        //book's other info.
+        booKCategory = "";
+        bookCategoryId = "";
+        bookBoughtDate = "";
+        bookApplicantDep = "";
+        bookApplicant = "";
+        bookActualPrice = "";
+        bookBorrowerDep = "";
+        bookBorrower = "";
+        bookBorrowingDate = "";
     }
 
 }

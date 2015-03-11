@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 
+import com.ckt.shrimp.wosaosao.BooksPutIn;
 import com.ckt.shrimp.wosaosao.ScanningActivity;
 
 import org.json.JSONArray;
@@ -150,6 +151,7 @@ public class BookUtil {
             e.printStackTrace();
         }
         //ScanningActivity.log("getHttpRequest(): " + content);
+        //BooksPutIn.log("getHttpRequest(): " + content);
         return content;
     }
 

@@ -53,7 +53,7 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
             // TODO Auto-generated method stub
             super.handleMessage(msg);
 
-            Book book= (Book)msg.obj;
+            Book book = (Book)msg.obj;
             //进度条消失
             mProgressDialog.dismiss();
             if (book == null) {

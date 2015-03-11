@@ -23,6 +23,22 @@
         android:orientation="vertical"
 
         >
+        <Button
+            android:id="@+id/book_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/books_put_in"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+        />
+        <Button
+            android:id="@+id/staff_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/staff_put_in"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+         />
         <!-- android:gravity="center_vertical"-->
         <Button
             android:id="@+id/book_lending"

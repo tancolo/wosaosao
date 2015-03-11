@@ -8,12 +8,36 @@
     <string name="book_lending">Lending Books</string>
     <string name="book_return">Return Books</string>
     <string name="book_export">Export to File</string>
-
     <string name="title_activity_scanning">ScanningActivity</string>
     <string name="scan_result_title">Scanning Result </string>
     <string name="scan_ISBN">Scanning Books</string>
     <string name="scan_staff">Scanning Staff Info</string>
-
     <string name="scan_result_sample">This is a sample text for result!!!</string>
+
+    <!-- add the strings for BooksPutIn class -->
+    <string name="title_activity_books_put_in">BooksPutIn</string>
+    <string name="books_put_in">Books Put In</string>
+    <string name="book_category">Books Category</string>
+    <string name="book_category_index">Books Category Index</string>
+
+    <string name="book_bought_date">Book Bought Date</string>
+    <string name="book_applicant_dep">Book Applicant Dep</string>
+
+    <string name="book_applicant">Book Applicant</string>
+    <string name="book_actual_price">Book Actual Price</string>
+
+    <!--add string array for book category -->
+    <string-array name="book_category_spinner">
+        <item>CKT-CD ZH</item>
+        <item>CKT-CD YF-BC</item>
+        <item>CKT-CD YF-SJ</item>
+        <item>CKT-CD YF-WL</item>
+        <item>CKT-CD YF-CS</item>
+    </string-array>
+
+    <!-- add strings for staff info-->
+    <string name="staff_put_in">Stuffs Put In</string>
+
+    <string name="add_all_info">Add All info to DB</string>
 
 </resources>

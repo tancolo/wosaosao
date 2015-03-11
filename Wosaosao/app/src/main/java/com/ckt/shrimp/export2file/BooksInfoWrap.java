@@ -7,40 +7,40 @@ package com.ckt.shrimp.export2file;
 public class BooksInfoWrap {
     //对应数据库字段
     //图书ISBN码
-    String mBooKIsbn = null;
+    public String mBooKIsbn = null;
     //图书ID
-    String mBooKId = null;
+    public String mBooKId = null;
     //图书标题
-    String mBooKTitle = null;
+    public String mBooKTitle = null;
     //图书副标题
-    String mBooKSubtitle = null;
+    public String mBooKSubtitle = null;
     //图书作者
-    String mBooKAuthor = null;
+    public String mBooKAuthor = null;
     //图书出版社
-    String mBooKPublisher = null;
+    public String mBooKPublisher = null;
     //图书价格
-    String mBooKPrice = null;
+    public String mBooKPrice = null;
 
     //图书所属类别
-    String mBooKCategory = null;
+    public String mBooKCategory = null;
     //图书所属类别编号
-    String mBookCategoryId = null;
+    public String mBookCategoryId = null;
     //图书购买时间
-    String mBookBoughtDate = null;
+    public String mBookBoughtDate = null;
     //图书申请购买部门
-    String mBookApplicantDep = null;
+    public String mBookApplicantDep = null;
     //图书购买申请者
-    String mBookApplicant = null;
+    public String mBookApplicant = null;
     //图书实际购买金额
-    String mBookActualPrice = null;
+    public String mBookActualPrice = null;
     //图书借阅部门
-    String mBookBorrowerDep = null;
+    public String mBookBorrowerDep = null;
     //图书借阅人
-    String mBookBorrower = null;
+    public String mBookBorrower = null;
     //图书借出时间
-    String mBookBorrowingDate = null;
+    public String mBookBorrowingDate = null;
 
-    BooksInfoWrap() {
+    public BooksInfoWrap() {
     }
 
 }

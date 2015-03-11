@@ -5,9 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import com.ckt.shrimp.wosaosao.ScanningActivity;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 

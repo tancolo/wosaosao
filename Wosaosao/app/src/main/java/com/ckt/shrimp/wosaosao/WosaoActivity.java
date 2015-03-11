@@ -16,6 +16,9 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
     private Button mBookLending;
     private Button mBookReturn;
     private Button mBookExport;
+    private Button mBookPutIn;
+    private Button mStaffPutIn;
+
     private static final String SCANNING_CLASS = "./ScanningActivity";
     //private static final String BOOK_TEST_CLASS = "./ScanningActivity";
 
@@ -28,10 +31,14 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
         mBookLending = (Button)findViewById(R.id.book_lending);
         mBookReturn = (Button)findViewById(R.id.book_return);
         mBookExport = (Button)findViewById(R.id.book_export);
+        mBookPutIn = (Button)findViewById(R.id.book_input);
+        mStaffPutIn = (Button)findViewById(R.id.staff_input);
 
         mBookLending.setOnClickListener(this);
         mBookReturn.setOnClickListener(this);
         mBookExport.setOnClickListener(this);
+        mBookPutIn.setOnClickListener(this);
+        mStaffPutIn.setOnClickListener(this);
     }
 
     @Override
@@ -39,14 +46,20 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
         int viewId = view.getId();
 
         switch(viewId) {
+            case R.id.book_input:
+                Intent intentBooksPutIn = new Intent(WosaoActivity.this, BooksPutIn.class);
+                startActivity(intentBooksPutIn);
+                break;
+            case R.id.staff_input:
+                break;
             case R.id.book_lending:
             case R.id.book_return:
                 Intent intent = new Intent(WosaoActivity.this, ScanningActivity.class);
                 startActivity(intent);
                 break;
             case R.id.book_export:
-                TestLoadRawTxtFile txtFile = new TestLoadRawTxtFile();
-                txtFile.loadRawTxt();
+                //TestLoadRawTxtFile txtFile = new TestLoadRawTxtFile();
+                //txtFile.loadRawTxt();
                 break;
             default:
                 break;

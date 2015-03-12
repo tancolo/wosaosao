@@ -1,6 +1,7 @@
 package com.ckt.shrimp.utils;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -33,15 +34,17 @@ public class MyDbProvider extends ContentProvider{
 
     @Override
     public Cursor query(Uri uri, String[] columns, String s, String[] args, String s2) {
+        Cursor cursor = null;
         switch (matcher.match(uri)){
             case BOOK:
-              return bookHelper.getReadableDatabase().query("book",columns,s,args,null,null,null,null);
+               cursor = bookHelper.getReadableDatabase().query("book",columns,s,args,null,null,null,null);
+            break;
             case  STAFF :
-              return bookHelper.getReadableDatabase().query("staff",columns,s,args,null,null,null,null);
-            case  BORROW :
-              return bookHelper.getReadableDatabase().query("borrow",columns,s,args,null,null,null,null);
+                cursor = bookHelper.getReadableDatabase().query("staff",columns,s,args,null,null,null,null);
+            break;
             default: return  null;
         }
+         return  cursor;
     }
 
     @Override
@@ -51,40 +54,54 @@ public class MyDbProvider extends ContentProvider{
 
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
+        Uri mUri = null;
+        long id  = 0;
         switch (matcher.match(uri)){
             case BOOK:
-                 bookHelper.getWritableDatabase().insert("book","_id",contentValues);
+             id = bookHelper.getWritableDatabase().insert("book","_id",contentValues);
+            break;
             case  STAFF :
-                bookHelper.getWritableDatabase().insert("staff","_id",contentValues);
-            case  BORROW :
-                bookHelper.getWritableDatabase().insert("borrow","_id",contentValues);
+            id =  bookHelper.getWritableDatabase().insert("staff","_id",contentValues);
+            break;
             default: return  null;
+        }
+        if(id != 0){
+            return ContentUris.withAppendedId(uri,id);
+        }else {
+            return null;
         }
     }
 
     @Override
     public int delete(Uri uri, String s, String[] strings) {
+        int id = 0;
         switch (matcher.match(uri)){
             case BOOK:
-              return   bookHelper.getWritableDatabase().delete("book",s,strings);
+              id = bookHelper.getWritableDatabase().delete("book",s,strings);
+            break;
             case  STAFF :
-               return bookHelper.getWritableDatabase().delete("staff",s,strings);
+              id = bookHelper.getWritableDatabase().delete("staff",s,strings);
+            break;
             case  BORROW :
-              return   bookHelper.getWritableDatabase().delete("borrow",s,strings);
+              id = bookHelper.getWritableDatabase().delete("borrow",s,strings);
+            break;
             default: return -1;
         }
+        return id;
     }
 
     @Override
     public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
+        int id;
         switch (matcher.match(uri)){
             case BOOK:
-                return   bookHelper.getWritableDatabase().update("book",contentValues,s,strings);
+               id = bookHelper.getWritableDatabase().update("book",contentValues,s,strings);
+            break;
             case  STAFF :
-                return   bookHelper.getWritableDatabase().update("staff",contentValues,s,strings);
-            case  BORROW :
-                return   bookHelper.getWritableDatabase().update("borrow",contentValues,s,strings);
+                id = bookHelper.getWritableDatabase().update("staff",contentValues,s,strings);
+            break;
             default: return -1;
         }
+        return id;
     }
 }

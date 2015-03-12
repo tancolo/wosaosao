@@ -6,14 +6,11 @@ import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,9 +38,9 @@ public class ShowBorrowActivity extends ActionBarActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-          TextView bookID=(TextView)view.findViewById(R.id.book_id);
-        Intent borrowDetail = new Intent(ShowBorrowActivity.this,BorrowDetailActivity.class);
-        borrowDetail.putExtra("bookid",bookID.getText().toString());
+        //TextView bookID=(TextView)view.findViewById(R.id.book_id);
+        /*Intent borrowDetail = new Intent(ShowBorrowActivity.this,BorrowDetailActivity.class);
+        borrowDetail.putExtra("bookid",bookID.getText().toString());*/
     }
 
     @Override
@@ -66,18 +63,37 @@ public class ShowBorrowActivity extends ActionBarActivity implements AdapterView
                 return null;
             }
             return inflater.inflate(resource_id,viewGroup,false);
-
         }
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
-            TextView bookId =  (TextView)view.findViewById(R.id.book_id);
-            TextView bookName =  (TextView)view.findViewById(R.id.book_name);
+            //TextView bookId =  (TextView)view.findViewById(R.id.book_id);
             TextView staffId =  (TextView)view.findViewById(R.id.staff_id);
+            TextView bookName =  (TextView)view.findViewById(R.id.book_name);
+            TextView category =  (TextView)view.findViewById(R.id.book_category);
+            TextView categoryId =  (TextView)view.findViewById(R.id.book_category_id);
+            TextView applicant =  (TextView)view.findViewById(R.id.book_applicant);
+            TextView appliDep =  (TextView)view.findViewById(R.id.appli_dep);
+            TextView author =  (TextView)view.findViewById(R.id.book_author);
+            TextView boughtDate =  (TextView)view.findViewById(R.id.book_bought_date);
+            TextView price =  (TextView)view.findViewById(R.id.book_price);
+            TextView borrower =  (TextView)view.findViewById(R.id.borrower);
+            TextView borrowingDate =  (TextView)view.findViewById(R.id.borrwing_date);
             if (cursor != null) {
-                bookId.setText(cursor.getString(cursor.getColumnIndex("book_id")));
+                //bookId.setText(cursor.getString(cursor.getColumnIndex("book_id")));
                 bookName.setText(cursor.getString(cursor.getColumnIndex("title")));
                 staffId.setText(cursor.getString(cursor.getColumnIndex("staff_id")));
+                category.setText(cursor.getString(cursor.getColumnIndex("category")));
+
+                categoryId.setText(cursor.getString(cursor.getColumnIndex("category_id")));
+                applicant.setText(cursor.getString(cursor.getColumnIndex("applicant")));
+
+                price.setText(cursor.getString(cursor.getColumnIndex("price")));
+                appliDep.setText(cursor.getString(cursor.getColumnIndex("applicant_dep")));
+                author.setText(cursor.getString(cursor.getColumnIndex("author")));
+                borrower.setText(cursor.getString(cursor.getColumnIndex("borrower")));
+                borrowingDate.setText(cursor.getString(cursor.getColumnIndex("borrowing_date")));
+                boughtDate.setText(cursor.getString(cursor.getColumnIndex("bought_date")));
             }
         }
 

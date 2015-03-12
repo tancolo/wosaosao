@@ -12,11 +12,23 @@ public class MyBookDataBaseHelper extends SQLiteOpenHelper {
 
     private String TABLE_SQL_BOOK = "create table book (_id integer primary key autoincrement,"+
                                     "book_id varchar(8) unique not NULL," +
+                                    "category varchar(8), " +
                                     "title varchar(30), "+
-                                    "subtitle varchar(30), "+
+                                    "category_id  varchar(16), " +
                                     "author varchar(16), "+
+                                    "bought_date  varchar(12), " +
+                                    "applicant_dep  varchar(12), " +
+                                    "applicant  varchar(8), " +
+                                    "actual_price varchar(7)," +
+                                    "borrower_dep  varchar(12), " +
+                                    "borrower  varchar(12), " +
+                                    "borrowing_date  varchar(12), " +
+                                    "applicant_id varchar(6) ,"+
+                                    "applicant_email varchar(20) ,"+
+                                    "borrower_id varchar(6),"+
+                                    "borrower_email varchar(20),"+
+                                    "subtitle varchar(30), "+
                                     "author_info varchar(100), "+
-                                    "staff_id varchar(6) unique ,"+
                                     "publisher  varchar(30), "+
                                     "publish_date  datetime(16), "+
                                     "isbn  varchar(20)," +
@@ -25,15 +37,7 @@ public class MyBookDataBaseHelper extends SQLiteOpenHelper {
                                     "tag  varchar(30), " +
                                     "content  varchar(300), " +
                                     "summary  varchar(100), " +
-                                    "category varchar(8), " +
-                                    "category_id  varchar(16), " +
-                                    "bought_date  varchar(12), " +
-                                    "applicant_dep  varchar(12), " +
-                                    "applicant  varchar(8), " +
                                     "price float(7),"+
-                                    "borrower_dep  varchar(12), " +
-                                    "borrower  varchar(12), " +
-                                    "borrowing_date  varchar(12), " +
                                     "bitmap  varchar(100))";
 
     /*private String TABLE_SQL_BORROW = "create table borrow (_id integer primary key autoincrement, " +
@@ -45,6 +49,7 @@ public class MyBookDataBaseHelper extends SQLiteOpenHelper {
     private String TABLE_SQL_STAFF = "create table staff (_id integer primary key autoincrement, "+
                                         "name varchar(8)," +
                                         "staff_department varchar(8)," +
+                                        "staff_email varchar(20) unique,"+
                                         "staff_id varchar(6) unique not NULL)";
     private Context mContext;
     public MyBookDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

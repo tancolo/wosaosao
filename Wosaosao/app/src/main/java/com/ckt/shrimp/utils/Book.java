@@ -12,14 +12,48 @@ import android.os.Parcelable;
  *
  */
 public class Book implements Parcelable {
-    //图书ID
-    private String id;
+    //wiki need
+    //图书所属类别
+    private String booKCategory;
     //图书标题
     private String Title;
-    //图书副标题
-    private String SubTitle;
+    //图书所属类别编号
+    private String bookCategoryId;
     //图书作者
     private String Author;
+    //图书购买时间
+    private String bookBoughtDate;
+    //图书申请购买部门
+    private String bookApplicantDep;
+    //图书购买申请者name
+    private String bookApplicant;
+    //图书实际购买金额
+    private String bookActualPrice;
+    //图书借阅者部门
+    private String bookBorrowerDep;
+    //图书借阅人name
+    private String bookBorrower;
+    //图书借出时间
+    private String bookBorrowingDate;
+
+
+    //add other book info.
+    //图书购买申请者id
+    private String bookBoughtStaffId;
+    //图书购买申请者email
+    private String bookBoughtStaffEmail;
+
+    //图书借阅人 id
+    private String bookBorrowerId;
+    //图书借阅者email
+    private String bookBorrowerEmail;
+
+
+    //other info
+    //图书ID
+    private String id;
+    //图书副标题
+    private String SubTitle;
     //作者信息
     private String AuthorInfo;
     //图书出版社
@@ -28,8 +62,6 @@ public class Book implements Parcelable {
     private String PublishDate;
     //图书ISBN码
     private String ISBN;
-    //图书价格
-    private String Price;
     //图书页数
     private String Page;
     //图书评分
@@ -44,40 +76,10 @@ public class Book implements Parcelable {
     private Bitmap Bitmap;
     //借书者id
     private String staffId;//maybe not used
+    //图书价格
+    private String Price;
 
-   //add something as you like.
-   //add other book info.
-    //图书所属类别
-    private String booKCategory;
-    //图书所属类别编号
-    private String bookCategoryId;
-    //图书购买时间
-    private String bookBoughtDate;
 
-    //图书申请购买部门
-    private String bookApplicantDep;
-    //图书购买申请者name
-    private String bookApplicant;
-    //图书购买申请者id
-    private String bookBoughtStaffId;
-
-    //图书购买申请者email
-    private String bookBoughtStaffEmail;
-
-    //图书实际购买金额
-    private String bookActualPrice;
-
-    //图书借阅者部门
-    private String bookBorrowerDep;
-    //图书借阅人name
-    private String bookBorrower;
-    //图书借阅人 id
-    private String bookBorrowerId;
-
-    //图书借阅者email
-    private String bookBorrowerEmail;
-    //图书借出时间
-    private String bookBorrowingDate;
 
     public String getBookBorrowerEmail() {
         return bookBorrowerEmail;

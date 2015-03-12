@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +23,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ckt.shrimp.controller.BookController;
 import com.ckt.shrimp.utils.Book;
 import com.ckt.shrimp.utils.BookUtil;
 import java.util.Calendar;
@@ -31,7 +34,7 @@ import com.zxing.activity.CaptureActivity;
 
 public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListener, View.OnClickListener,
  View.OnTouchListener {
-
+    private BookController  bookController;
     private static final String TAG = "BooksPutIn";
     private static final int DATE_DIALOG_ID = 0x1000;
     private static final int RESULT_ISBN = 1;
@@ -101,6 +104,8 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         mTextScanStuff = (TextView)findViewById(R.id.scan_stuff_result);
         mButtonScanISbn.setOnClickListener(this);
         mButtonScanStuff.setOnClickListener(this);
+        bookController = new BookController(this);
+
     }
 
     private Handler mHandler = new Handler(){
@@ -148,6 +153,14 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                 mBooksInfoWrap.setBookBoughtDate(mBookBoughtDate.getText().toString());//get the bought date.
                 //dump all Book info
                 dump(mBooksInfoWrap);
+                if(bookController != null){
+                 Uri u =  bookController.addBook(mBooksInfoWrap);
+                  if (u != null){
+                      Toast.makeText(this,"add success",Toast.LENGTH_SHORT).show();
+                  }else {
+                      Toast.makeText(this,"add not success",Toast.LENGTH_SHORT).show();
+                  }
+                }
                 break;
             default:
                 break;

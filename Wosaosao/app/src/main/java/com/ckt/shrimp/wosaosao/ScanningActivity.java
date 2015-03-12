@@ -1,5 +1,10 @@
 package com.ckt.shrimp.wosaosao;
 
+/** Now, this class is only use to scan ISBN and two-dimension code of staff.
+ * But don't connect internet, only search info in Date base.
+ * If you want to see the process of searching ISBN info by internet, Pls see @BooksPutIn.java.
+ *
+ */
 import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Message;
@@ -25,8 +30,6 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
     private TextView mTextScanIsbn;
     private TextView mTextScanStuff;
 
-    private static final int RESULT_ISBN = 1;
-    private static final int RESULT_STUFF = 2;
     private static final String TAG = "DEBUG_SAO";
 
     private ProgressDialog mProgressDialog;

@@ -66,6 +66,10 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
 
     //selected item
     private String mSeleCategory = null;
+    private String mSeleCategoryId = null;
+    private String[] mSeleCategoryEng = null;
+    //private String[] mSeleCategoryZch = null;
+    private int posCategoryIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +110,26 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         mButtonScanStuff.setOnClickListener(this);
         bookController = new BookController(this);
 
+        //save the category id, it must be english.
+        /** The category id is eng string:
+         *  "综合"， -->  CKT-CD ZH-0001
+         *  "研发",  --> CKT-CD YF-BC-0001
+         *  "设计",  --> CKT-CD YF-SJ-0001
+         *  "网络",  --> CKT-CD YF-WL-0001
+         *  "测试".  --> CKT-CD YF-CS-0001
+         */
+        //So, need to judge category is string. should get the array strings.R.id.book_category_spinner_eng
+        mSeleCategoryEng = this.getResources().getStringArray(R.array.book_category_spinner_eng);
+        //only for debugging
+        if (mSeleCategoryEng != null ) {
+            int count = mSeleCategoryEng.length;
+            for (int i = 0; i < count; i++) {
+                log("mSeleCategoryEng[ " + i + "] = " + mSeleCategoryEng[i]);
+            }
+        }//debug-end
     }
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
@@ -147,9 +168,17 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                 break;
             case R.id.add_all_info:
                 //get all books info, the class BooksInfoWrap contains isbn info and the inputting info.
-                mBooksInfoWrap.setBooKCategory(mSeleCategory);//get the book category.eg. CKT-CD YF-BC
-                mBooksInfoWrap.setBookCategoryId("-" + mCategoryIndexEdit.getText().toString());//e.g -001
-                mBooksInfoWrap.setBookActualPrice("-" + mActualPriceEdit.getText().toString());// e.g 28.50
+                mBooksInfoWrap.setBooKCategory(mSeleCategory);//get the book category.eg. "综合"， "研发", "设计", "网络", "测试".
+                /** but the category id is eng string:
+                 *  "综合"， -->  CKT-CD ZH-0001
+                 *  "研发",  --> CKT-CD YF-BC-0001
+                 *  "设计",  --> CKT-CD YF-SJ-0001
+                 *  "网络",  --> CKT-CD YF-WL-0001
+                 *  "测试".  --> CKT-CD YF-CS-0001
+                 */
+                //mSeleCategoryEng save the "CKT-CD ZH-" and so on. and the posCategoryIndex will save the pos which selected.
+                mBooksInfoWrap.setBookCategoryId(mSeleCategoryEng[posCategoryIndex] + mCategoryIndexEdit.getText().toString());//e.g CKT-CD YF-BC-001
+                mBooksInfoWrap.setBookActualPrice(mActualPriceEdit.getText().toString());// e.g 28.50
                 mBooksInfoWrap.setBookBoughtDate(mBookBoughtDate.getText().toString());//get the bought date.
                 //dump all Book info
                 dump(mBooksInfoWrap);
@@ -164,7 +193,6 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                 break;
             default:
                 break;
-
         }
     }
 
@@ -252,6 +280,8 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         // An item was selected. You can retrieve the selected item using
         //Toast.makeText(BooksPutIn.this, parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
         mSeleCategory = parent.getItemAtPosition(pos).toString();
+        posCategoryIndex = pos;
+        log(posCategoryIndex + ",  mSeleCategory");
         //mBooksInfoWrap.setBooKCategory(parent.getItemAtPosition(pos).toString());//get the book category.
     }
 
@@ -348,8 +378,23 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         mTextScanIsbn.setText(scanResult.toString());
     }
 
+    /**
+     * In our app, the category index is only 4 digits,
+     * like this 0001, 0002, ... ... 1000 .
+     * So need to add something transformation. User input 1, the out should be 0001.
+     * @param strIndex
+     * @return
+     */
+    private String formatCategoryIndex(String strIndex) {
+        if (strIndex == null || strIndex.isEmpty())
+            return null;
+        String result = "";
+        strIndex.trim();
+        return null;
+    }
+
     public static void log(String str) {
-        Log.d(TAG, str);
+        Log.e(TAG, str);
     }
 
     private void dump(Book book) {

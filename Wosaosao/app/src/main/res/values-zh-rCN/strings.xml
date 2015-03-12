@@ -27,15 +27,6 @@
     <string name="book_actual_price">Book Actual Price</string>
 
     <!--add string array for book category -->
-
-    <string-array name="book_category_spinner_eng">
-        <item>CKT-CD ZH-</item>
-        <item>CKT-CD YF-BC-</item>
-        <item>CKT-CD YF-SJ-</item>
-        <item>CKT-CD YF-WL-</item>
-        <item>CKT-CD YF-CS-</item>
-    </string-array>
-<!-- not used, see values-zh-rCN/string.xml
     <string-array name="book_category_spinner">
         <item>综合</item>
         <item>编程</item>
@@ -43,7 +34,7 @@
         <item>网络</item>
         <item>测试</item>
     </string-array>
--->
+
     <!-- add strings for staff info-->
     <string name="staff_put_in">Stuffs Put In</string>
 

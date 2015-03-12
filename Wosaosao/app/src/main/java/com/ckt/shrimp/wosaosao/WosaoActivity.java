@@ -28,9 +28,7 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
     private Button mBookExport;
     private Button mBookPutIn;
     private Button mStaffPutIn;
-	
-	//jerry
-    private Button mBorrowTable;
+
     MyBookDataBaseHelper bookHelper;
 
     private static final String SCANNING_CLASS = "./ScanningActivity";
@@ -55,11 +53,6 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
         mBookPutIn.setOnClickListener(this);
 
         mStaffPutIn.setOnClickListener(this);
-		//jerry
-        mBorrowTable = (Button) findViewById(R.id.borrow_table);
-		//jerry
-        //mBorrowTable.setOnClickListener(this);
-        //dbInit();
     }
 
     @Override
@@ -110,67 +103,5 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
 
         return super.onOptionsItemSelected(item);
     }
-	
-	//jerry add
-    private void dbInit() {
-
-        bookHelper = new MyBookDataBaseHelper(this,"saosao",null,1);
-        insertBookAndStaff();
-
-    }
-	private void insertBookAndStaff() {
-        Book b = new Book();
-        b.setId("00001");
-        b.setStaffId("N001");
-        //wiki demo.....
-        b.setBooKCategory("综合");
-        b.setTitle("Thinking in java");
-        b.setBookCategoryId("CKT-CD ZH-001");
-        b.setAuthor("本.麦凯");
-        b.setBookBoughtDate("2011/07/09");
-        b.setBookApplicantDep("研发部");
-        b.setBookApplicant("杨雨");
-        b.setPrice("46.5");
-        b.setBookBorrowerDep("软件部");
-        b.setBookBorrower("Jerry");
-        b.setBookBorrowingDate("2015/03/11");
-
-
-        ContentValues v = new ContentValues();
-        v.put("book_id",b.getId());
-        v.put("staff_id",b.getStaffId());
-        v.put("category",b.getBooKCategory());
-        v.put("title",b.getTitle());
-        v.put("category_id",b.getBookCategoryId());
-        v.put("author",b.getAuthor());
-        v.put("bought_date",b.getBookBoughtDate());
-        v.put("applicant_dep",b.getTitle());
-        v.put("applicant",b.getAuthor());
-        v.put("price",b.getBookBoughtDate());
-        v.put("borrower_dep",b.getTitle());
-        v.put("borrower",b.getAuthor());
-        v.put("borrowing_date",b.getId());
-
-
-        //insert staff ............................
-        Staff e = new Staff();
-        e.setId("N001");
-        e.setName("jerry");
-        e.setDepartment("软件部");
-
-        /*-----------borrow --star -----------*/
-
-        ContentValues vstaff = new ContentValues();
-        vstaff.put("staff_id",e.getId());
-        vstaff.put("name",e.getName());
-        vstaff.put("staff_department",e.getDepartment());
-
-        bookHelper.getWritableDatabase().insert("book",null,v);
-        bookHelper.getWritableDatabase().insert("staff",null,vstaff);
-        Cursor c = bookHelper.getReadableDatabase().rawQuery("select book.*,staff.* from book,staff  where book.staff_id=staff.staff_id",null);
-        while (c.moveToNext()){
-          Toast.makeText(this,"book title :"+c.getString(c.getColumnIndex("title")),Toast.LENGTH_SHORT).show();
-        }
-	}
 	
 }

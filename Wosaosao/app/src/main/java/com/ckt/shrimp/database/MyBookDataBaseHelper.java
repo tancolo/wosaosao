@@ -11,11 +11,11 @@ import android.widget.Toast;
 public class MyBookDataBaseHelper extends SQLiteOpenHelper {
 
     private String TABLE_SQL_BOOK = "create table book (_id integer primary key autoincrement,"+
-                                    "book_id varchar(8) unique not NULL," +
+                                    "book_id varchar(16) unique not NULL," +
                                     "category varchar(8), " +
                                     "title varchar(30), "+
                                     "category_id  varchar(16), " +
-                                    "author varchar(16), "+
+                                    "author varchar(50), "+
                                     "bought_date  varchar(12), " +
                                     "applicant_dep  varchar(12), " +
                                     "applicant  varchar(8), " +

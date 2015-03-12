@@ -11,6 +11,7 @@ import com.ckt.shrimp.database.MyBookDataBaseHelper;
 import com.ckt.shrimp.utils.Book;
 import com.ckt.shrimp.utils.BookUtil;
 import com.ckt.shrimp.utils.MyDbProvider;
+import com.ckt.shrimp.wosaosao.R;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class BookController {
         //resolver.query(BookUtil.BOOK_URI,)
         //resolver.insert(BookUtil.BOOK_URI,v);
         if ((!value.containsKey("borrower_id")) || (!value.containsKey("borrower_email")) || (!value.containsKey("borrower")) || (!value.containsKey("borrowing_date"))){
-            Toast.makeText(mContext,"less of borrower message !",Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,mContext.getResources().getString(R.string.borrow_success),Toast.LENGTH_SHORT).show();
             return  false;
         }
         if (isBookBorrowed(bookId)){

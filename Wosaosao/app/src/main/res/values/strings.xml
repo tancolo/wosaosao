@@ -57,5 +57,7 @@
     <string name="year">Year</string>
     <string name="month">Month</string>
     <string name="day">Day</string>
+    <!-- jerry add -->
+    <string name="borrow_success">borrow success......</string>
 
 </resources>

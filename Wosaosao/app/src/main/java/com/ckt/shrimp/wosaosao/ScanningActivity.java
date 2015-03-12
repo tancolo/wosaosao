@@ -3,7 +3,7 @@ package com.ckt.shrimp.wosaosao;
 /** Now, this class is only use to scan ISBN and two-dimension code of staff.
  * But don't connect internet, only search info in Date base.
  * If you want to see the process of searching ISBN info by internet, Pls see @BooksPutIn.java.
- *
+ * And the 2d code don't use internet and DB.
  */
 import android.app.ProgressDialog;
 import android.os.Handler;
@@ -24,15 +24,15 @@ import com.ckt.shrimp.utils.*;
 
 
 public class ScanningActivity extends ActionBarActivity implements View.OnClickListener {
-    private Button mButtonScanISbn;
-    private Button mButtonScanStuff;
+    private Button mButtonScanISbn = null;
+    private Button mButtonScanStuff = null;
+    private Button mButtonOK = null;
 
-    private TextView mTextScanIsbn;
-    private TextView mTextScanStuff;
+    private TextView mTextScanIsbn = null;
+    private TextView mTextScanStaff = null;
+    private Book mBorrowedBookInfo = new Book();
 
     private static final String TAG = "DEBUG_SAO";
-
-    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,33 +42,15 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
         //init the layout
         mButtonScanISbn = (Button)findViewById(R.id.scan_ISBN);
         mButtonScanStuff = (Button)findViewById(R.id.scan_staff_info);
+        mButtonOK = (Button)findViewById(R.id.book_lending_ok);
 
         mTextScanIsbn = (TextView)findViewById(R.id.scan_ISBN_result);
-        mTextScanStuff = (TextView)findViewById(R.id.scan_stuff_result);
+        mTextScanStaff = (TextView)findViewById(R.id.scan_stuff_result);
 
         mButtonScanISbn.setOnClickListener(this);
         mButtonScanStuff.setOnClickListener(this);
+        mButtonOK.setOnClickListener(this);
     }
-
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            super.handleMessage(msg);
-
-            Book book = (Book)msg.obj;
-            //进度条消失
-            mProgressDialog.dismiss();
-            if (book == null) {
-                Toast.makeText(ScanningActivity.this, "没有找到这本书", Toast.LENGTH_LONG).show();
-            }else {
-                //should show the info of this book.
-                //at present only focus on below info:
-                //ISBN, name, author, publisher, price.
-                format2text(book);
-            }
-        }
-    };
 
     @Override
     public void onClick(View view) {
@@ -78,13 +60,18 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
             case R.id.scan_ISBN:
                 //打开扫描界面扫描条形码
                 Intent openCameraIntent_ISBN = new Intent(ScanningActivity.this, CaptureActivity.class);
-                startActivityForResult(openCameraIntent_ISBN, RESULT_ISBN);
+                startActivityForResult(openCameraIntent_ISBN, BookUtil.RESULT_ISBN);
                 break;
             case R.id.scan_staff_info:
                 //call zxing API
                 //打开扫描界面扫描二维码
                 Intent openCameraIntent_stuff = new Intent(ScanningActivity.this, CaptureActivity.class);
-                startActivityForResult(openCameraIntent_stuff, RESULT_STUFF);
+                startActivityForResult(openCameraIntent_stuff, BookUtil.RESULT_STUFF);
+                break;
+            case R.id.book_lending_ok:
+                //update the book info and borrower's info to DB
+                //need jerry to implement.
+                Toast.makeText(ScanningActivity.this, "need jerry to implement", Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;
@@ -97,52 +84,39 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
 
         log("requestCode = " + requestCode +", resultCode = " + resultCode);
-        //处理扫描结果（在界面上显示）仅仅是用于测试，后续有显示的地方
+        //Here, we only get the isbn or 2d code info!!!
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");
-            if (RESULT_ISBN == requestCode) {// value 1 means ISBN.
-                //mTextScanIsbn.setText(scanResult);
-                //判断网络是否连接
-                if(BookUtil.isNetworkConnected(this)){
-                    mProgressDialog = new ProgressDialog(this);
-                    mProgressDialog.setMessage("请稍候，正在读取信息...");
-                    mProgressDialog.show();
-                    String urlstr = "https://api.douban.com/v2/book/isbn/:"+scanResult;
-                    log("urlstr : " + urlstr);
+            boolean isIsbn = scanResult.substring(0, 3).equals(BookUtil.ISBN_START_STR);//Isbn start with "978"
+            log("isIsbn = " + isIsbn +",  sub(0, 3) = " + scanResult.substring(0, 3));
 
-                    //扫到ISBN后，启动下载线程下载图书信息
-                    new LoadParseBookThread(urlstr).start();
-                }else {
-                    Toast.makeText(this, "网络异常，请检查你的网络连接", Toast.LENGTH_LONG).show();
+            if (BookUtil.RESULT_ISBN == requestCode) {// value 1 means ISBN.
+                mTextScanIsbn.setText(scanResult);
+                //should search Book's info in DataBase.
+                //Need 2 filed: book's isbn, book category id(only one per book).
+                //At present, for testing, I only get the book's isbn to search book's info in DB.
+                //The category id, need to be created later.
+                if (isIsbn) {
+                    mBorrowedBookInfo.setISBN(scanResult);
+                    //mBorrowedBookInfo.setBookCategoryId("CKT-CD YF-BC-001");//only test.
+                    //call function of searching DB.
+                    searchInfoByBookId(mBorrowedBookInfo);
                 }
+
             }else { // value 2 means two dimension code about stuff info.
-                mTextScanStuff.setText(scanResult);
+                mTextScanStaff.setText(scanResult);//for showing staff info
+                //parser the scan result.
+                if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, mBorrowedBookInfo)) {
+                    Toast.makeText(ScanningActivity.this, "获取职员二维码信息有误，请重新扫描", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
 
-    private class LoadParseBookThread extends Thread {
-        private String url;
-
-        //通过构造函数传递url地址
-        public LoadParseBookThread(String urlstr) {
-            url = urlstr;
-        }
-
-        public void run() {
-            log("LoadParseBookThread run(): url = " + url);
-            Message msg = Message.obtain();
-            String result = BookUtil.getHttpRequest(url);
-            try {
-                Book book = new BookUtil().parseBookInfo(result);
-                //给主线程UI界面发消息，提醒下载信息，解析信息完毕
-                msg.obj = book;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            mHandler.sendMessage(msg);
-        }
+    private void searchInfoByBookId(Book sBook) {
+        //need jerry to implement.
+        Toast.makeText(ScanningActivity.this, "need jerry to implement", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -168,14 +142,13 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
     }
 
     public static void log(String str) {
-        Log.d(TAG, str);
+        Log.e(TAG, str);
     }
 
     private void format2text(Book book) {
         //mTextScanIsbn;
         //at present only focus on below info:
         //ISBN, title and subtitle, author, publisher, price.
-
         String scanResult = "";
         //isbn
         scanResult += book.getISBN();

@@ -60,4 +60,7 @@
     <!-- jerry add -->
     <string name="borrow_success">borrow success......</string>
 
+    <!-- add the string for ScanningActivity's button book_lending_ok-->
+    <string name="lending_ok">OK</string>
+
 </resources>

@@ -30,6 +30,10 @@ public class BookUtil {
 
    public static final int RETURN_ERROR = -1;
    public static final int RETURN_OK = 1;
+   public static final int RESULT_ISBN = 1;
+   public static final int RESULT_STUFF = 2;
+    public static final String ISBN_START_STR = "978";
+
     /**
      * 请求某个url上的图片资源
      * @param String bmurl

@@ -5,9 +5,27 @@ package com.ckt.shrimp.utils;
  */
 public class Staff {
 
-    private String name;
-    private String id;
-    private String department;
+    private String name = null;
+    private String id = null;
+    private String department = null;
+    private String email = null;
+
+    //add by colo start
+    public Staff () {
+        name = "";
+        id = "";
+        department = "";
+        email = "";
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    // add by colo end
 
     public String getDepartment() {
         return department;

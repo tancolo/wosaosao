@@ -61,6 +61,9 @@
     <string name="borrow_success">borrow success......</string>
 
     <!-- add the string for ScanningActivity's button book_lending_ok-->
-    <string name="lending_ok">OK</string>
+    <string name="lending_ok">Add Info</string>
+
+    <!-- add strings for activity StaffPutIn -->
+    <string name="title_activity_staff_put_in">StaffPutIn</string>
 
 </resources>

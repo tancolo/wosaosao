@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.ckt.shrimp.wosaosao.StaffPutIn">
+
+    <TextView
+        android:id="@+id/staff_putIn_title"
+        android:text="@string/staff_put_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/contain_staff_info"
+        android:layout_below="@id/add_others_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        >
+        <Button
+            android:id="@+id/scan_staff_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_staff"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/scan_result_title"
+            />
+        <TextView
+            android:id="@+id/scan_stuff_result"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/scan_result_sample"
+            />
+        <Button
+            android:id="@+id/add_staff_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lending_ok"
+            android:textSize="20sp"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

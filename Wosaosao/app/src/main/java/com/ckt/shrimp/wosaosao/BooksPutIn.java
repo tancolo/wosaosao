@@ -37,9 +37,9 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
     private BookController  bookController;
     private static final String TAG = "BooksPutIn";
     private static final int DATE_DIALOG_ID = 0x1000;
-    private static final int RESULT_ISBN = 1;
-    private static final int RESULT_STUFF = 2;
-    private String format = "-";
+    //private static final int RESULT_ISBN = 1;
+    //private static final int RESULT_STUFF = 2;
+    //private String format = "-";
     //private static  final int CATEGORY_COUNTS = 5;
     //private static int[] mStartIndex = new int[CATEGORY_COUNTS];
     //private int mIndex = 0;
@@ -158,13 +158,13 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
             case R.id.scan_ISBN:
                 //打开扫描界面扫描条形码
                 Intent openCameraIntent_ISBN = new Intent(BooksPutIn.this, CaptureActivity.class);
-                startActivityForResult(openCameraIntent_ISBN, RESULT_ISBN);
+                startActivityForResult(openCameraIntent_ISBN, BookUtil.RESULT_ISBN);
                 break;
             case R.id.scan_staff_info:
                 //call zxing API
                 //打开扫描界面扫描二维码
                 Intent openCameraIntent_stuff = new Intent(BooksPutIn.this, CaptureActivity.class);
-                startActivityForResult(openCameraIntent_stuff, RESULT_STUFF);
+                startActivityForResult(openCameraIntent_stuff, BookUtil.RESULT_STUFF);
                 break;
             case R.id.add_all_info:
                 //get all books info, the class BooksInfoWrap contains isbn info and the inputting info.
@@ -205,7 +205,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");
-            if (RESULT_ISBN == requestCode) {// value 1 means ISBN.
+            if (BookUtil.RESULT_ISBN == requestCode) {// value 1 means ISBN.
                 mTextScanIsbn.setText(scanResult);
                 //判断网络是否连接
                 if(BookUtil.isNetworkConnected(this)) {
@@ -224,7 +224,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                 mTextScanStuff.setText(scanResult);
                 //need to parse staff info from the 2D code. static function
                 //need to pass the BookWrap
-                if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, mBooksInfoWrap)) {
+                if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, mBooksInfoWrap, null)) {
                     Toast.makeText(BooksPutIn.this, "获取职员二维码信息有误，请重新扫描", Toast.LENGTH_LONG).show();
                 }
             }

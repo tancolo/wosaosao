@@ -65,6 +65,8 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
                 startActivity(intentBooksPutIn);
                 break;
             case R.id.staff_input:
+                Intent intentStaffPutIn = new Intent(WosaoActivity.this, StaffPutIn.class);
+                startActivity(intentStaffPutIn);
                 break;
             case R.id.book_lending:
             case R.id.book_return:

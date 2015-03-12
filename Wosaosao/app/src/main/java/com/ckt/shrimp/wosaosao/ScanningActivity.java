@@ -107,7 +107,7 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
             }else { // value 2 means two dimension code about stuff info.
                 mTextScanStaff.setText(scanResult);//for showing staff info
                 //parser the scan result.
-                if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, mBorrowedBookInfo)) {
+                if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, mBorrowedBookInfo, null)) {
                     Toast.makeText(ScanningActivity.this, "获取职员二维码信息有误，请重新扫描", Toast.LENGTH_LONG).show();
                 }
             }

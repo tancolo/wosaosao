@@ -17,7 +17,7 @@ public class ParseAndWriteInfo {
     //private static final int RETURN_OK = 1;
     private static final String TAG = "ParseAndWriteInfo";
 
-    public static int parseStaffInfo(String staffInfo, Book tBookWrap) {
+    public static int parseStaffInfo(String staffInfo, Book tBookWrap, Staff tStaff) {
         if (staffInfo == null || staffInfo.isEmpty())
             return BookUtil.RETURN_ERROR;
         String[] split = staffInfo.split("[,]");
@@ -28,18 +28,33 @@ public class ParseAndWriteInfo {
         }
 
         try {
-            //Book tBookWrap = new Book();
-            //get the values from staffInfo use "," to split.
-            tBookWrap.setBookBoughtStaffId(split[0]);
-            tBookWrap.setBookApplicant(split[1]);
-            tBookWrap.setBookBoughtStaffEmail(split[2]);
-            tBookWrap.setBookApplicantDep(split[3]);
+            if (tBookWrap != null) {
+                //Book tBookWrap = new Book();
+                //get the values from staffInfo use "," to split.
+                tBookWrap.setBookBoughtStaffId(split[0]);
+                tBookWrap.setBookApplicant(split[1]);
+                tBookWrap.setBookBoughtStaffEmail(split[2]);
+                tBookWrap.setBookApplicantDep(split[3]);
 
-            //dump staff info.
-             log(tBookWrap.getBookBoughtStaffId() + ", " + tBookWrap.getBookApplicant() +", " + tBookWrap.getBookBoughtStaffEmail()
-             +", " + tBookWrap.getBookApplicantDep());
-            //end dump
-            //return tBookWrap;
+                //dump staff info.
+                log(tBookWrap.getBookBoughtStaffId() + ", " + tBookWrap.getBookApplicant() + ", " + tBookWrap.getBookBoughtStaffEmail()
+                        + ", " + tBookWrap.getBookApplicantDep());
+                //end dump
+                //return tBookWrap;
+            } else if (tStaff != null) {
+                tStaff.setId(split[0]);
+                tStaff.setName(split[1]);
+                tStaff.setEmail(split[2]);
+                tStaff.setDepartment(split[3]);
+
+                //dump staff info.
+                log(tStaff.getId() + ", " + tStaff.getName() + ", " + tStaff.getEmail()
+                        + ", " + tStaff.getDepartment());
+                //end dump
+                //return tStaff;
+            }else {
+                //do nothing
+            }
         } catch (Exception e) {
             Log.e(TAG,"Invalid format in staffInfo '"+staffInfo+"'");
             return BookUtil.RETURN_ERROR;
@@ -48,6 +63,6 @@ public class ParseAndWriteInfo {
     }
 
     public static void log(String str) {
-        Log.d(TAG, str);
+        Log.e(TAG, str);
     }
 }

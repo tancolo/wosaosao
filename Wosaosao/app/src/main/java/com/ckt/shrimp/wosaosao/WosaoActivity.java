@@ -58,8 +58,8 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
 		//jerry
         mBorrowTable = (Button) findViewById(R.id.borrow_table);
 		//jerry
-        mBorrowTable.setOnClickListener(this);
-        dbInit();
+        //mBorrowTable.setOnClickListener(this);
+        //dbInit();
     }
 
     @Override

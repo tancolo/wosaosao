@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.ckt.shrimp.utils.Book;
 import com.ckt.shrimp.utils.BookUtil;
 import java.util.Calendar;
+
+import com.ckt.shrimp.utils.ParseAndWriteInfo;
 import com.zxing.activity.CaptureActivity;
 
 public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListener, View.OnClickListener,
@@ -116,8 +118,8 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                 //should show the info of this book.
                 //at present only focus on below info:
                 //ISBN, name, author, publisher, price.
-                format2text(book);
-                saveBooksInfo(book);
+                format2text(book);//to show the info
+                saveBooksInfo(book);//save info to class object mBooksInfoWrap.
             }
         }
     };
@@ -179,7 +181,11 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                 }
             }else { // value 2 means two dimension code about stuff info.
                 mTextScanStuff.setText(scanResult);
-                //need pers
+                //need to parse staff info from the 2D code. static function
+                //need to pass the BookWrap
+                if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, mBooksInfoWrap)) {
+                    Toast.makeText(BooksPutIn.this, "获取职员二维码信息有误，请重新扫描", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
@@ -282,7 +288,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         mBooksInfoWrap.setPublisher(book.getPublisher());
         mBooksInfoWrap.setPrice(book.getPrice());//may be not save, because the actual price.
 
-        //below info not save to data base
+        //below info is not save to data base
         mBooksInfoWrap.setPage(book.getPage());
         mBooksInfoWrap.setAuthorInfo(book.getAuthorInfo());
         mBooksInfoWrap.setPublishDate(book.getPublishDate());
@@ -334,9 +340,28 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
     }
 
     private void dump(Book book) {
-        log("Book Category:     " + book.getBooKCategory()
-        +"\n Book Category Id:  " + book.getBookCategoryId()
-        +"\n Actual Price:      " + book.getBookActualPrice()
-        +"\n Bought Date:       " + book.getBookBoughtDate());
+        //firstly, book's isbn info
+        log("======== DUMP START ============= \n");
+        log(" Book id: " + book.getId()
+        +"\n Book ISBN: " + book.getISBN()
+        +"\n Book Title: " + book.getTitle()
+        +"\n Book SubTitle: " + book.getSubTitle()
+        +"\n Book Author: " + book.getAuthor()
+        +"\n Book Publisher: " + book.getPublisher()
+        +"\n Book Price: " + book.getPrice());
+
+        //secondly, the other book info.
+        log(" Book Category: " + book.getBooKCategory()
+        +"\n Book Category Id: " + book.getBookCategoryId()
+        +"\n Actual Price: " + book.getBookActualPrice()
+        +"\n Bought Date: " + book.getBookBoughtDate());
+
+        //third, the staff who bought book.
+        log(" Staff id: " + book.getBookBoughtStaffId()
+        +"\n Staff name: " + book.getBookApplicant()
+        +"\n Staff email: " + book.getBookBoughtStaffEmail()
+        +"\n Staff dep: " + book.getBookApplicantDep());
+
+        log("======== DUMP END ============= \n");
     }
 }

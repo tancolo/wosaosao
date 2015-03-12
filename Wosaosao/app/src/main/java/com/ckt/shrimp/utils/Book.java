@@ -43,7 +43,7 @@ public class Book implements Parcelable {
     //图书图片
     private Bitmap Bitmap;
     //借书者id
-    private String staffId;
+    private String staffId;//maybe not used
 
    //add something as you like.
    //add other book info.
@@ -53,20 +53,62 @@ public class Book implements Parcelable {
     private String bookCategoryId;
     //图书购买时间
     private String bookBoughtDate;
+
     //图书申请购买部门
     private String bookApplicantDep;
-    //图书购买申请者
+    //图书购买申请者name
     private String bookApplicant;
+    //图书购买申请者id
+    private String bookBoughtStaffId;
+
+    //图书购买申请者email
+    private String bookBoughtStaffEmail;
+
     //图书实际购买金额
     private String bookActualPrice;
-    //图书借阅部门
+
+    //图书借阅者部门
     private String bookBorrowerDep;
-    //图书借阅人
+    //图书借阅人name
     private String bookBorrower;
+    //图书借阅人 id
+    private String bookBorrowerId;
+
+    //图书借阅者email
+    private String bookBorrowerEmail;
     //图书借出时间
     private String bookBorrowingDate;
 
+    public String getBookBorrowerEmail() {
+        return bookBorrowerEmail;
+    }
 
+    public void setBookBorrowerEmail(String bookBorrowerEmail) {
+        this.bookBorrowerEmail = bookBorrowerEmail;
+    }
+
+    public String getBookBoughtStaffEmail() {
+        return bookBoughtStaffEmail;
+    }
+
+    public void setBookBoughtStaffEmail(String bookBoughtStaffEmail) {
+        this.bookBoughtStaffEmail = bookBoughtStaffEmail;
+    }
+
+    public String getBookBorrowerId() {
+        return bookBorrowerId;
+    }
+
+    public void setBookBorrowerId(String bookBorrowerId) {
+        this.bookBorrowerId = bookBorrowerId;
+    }
+
+    public String getBookBoughtStaffId() {
+        return bookBoughtStaffId;
+    }
+    public void setBookBoughtStaffId(String bookBoughtStaffId) {
+        this.bookBoughtStaffId = bookBoughtStaffId;
+    }
     public String getStaffId() {
         return staffId;
     }
@@ -362,6 +404,7 @@ public class Book implements Parcelable {
         bookBorrowerDep = "";
         bookBorrower = "";
         bookBorrowingDate = "";
+        bookBoughtStaffId = "";
     }
 
 }

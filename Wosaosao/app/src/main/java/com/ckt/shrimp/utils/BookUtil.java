@@ -28,6 +28,8 @@ public class BookUtil {
    public final static Uri EMPLOYEE_URI = Uri.parse("content://"+bookAuthority+"/staff");
    public final static Uri BORROW_URI = Uri.parse("content://"+bookAuthority+"/borrow");
 
+   public static final int RETURN_ERROR = -1;
+   public static final int RETURN_OK = 1;
     /**
      * 请求某个url上的图片资源
      * @param String bmurl

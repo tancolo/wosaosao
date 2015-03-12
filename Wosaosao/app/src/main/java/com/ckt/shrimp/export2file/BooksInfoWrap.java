@@ -2,6 +2,8 @@ package com.ckt.shrimp.export2file;
 
 /**
  * Created by ckt on 3/9/15.
+ * This class is not used, this app use global class Book.
+ * This class only use to test load and write raw txt.
  */
 //package class, for saving the data and using for inserting database.
 public class BooksInfoWrap {

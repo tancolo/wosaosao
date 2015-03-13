@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.ckt.shrimp.database.MyBookDataBaseHelper;
@@ -19,9 +20,12 @@ import java.util.List;
  * Created by ckt on 09/03/15.
  */
 public class BookController {
+
+    private static final String TAG = "DEBUG_SAO";
     private Context mContext;
     private ContentResolver resolver;
     public static MyBookDataBaseHelper bookHelper;
+
 
     public  BookController(Context c){
         mContext = c;
@@ -33,17 +37,21 @@ public class BookController {
         return resolver.insert(BookUtil.BOOK_URI,v);
     }
 
-
     public boolean lendingBook(String isbn,ContentValues value){
+
+        log("lendingBook==> isbn = " + isbn + ", value = " + value);
         if ((!value.containsKey("borrower_id")) || (!value.containsKey("borrower_email")) || (!value.containsKey("borrower")) || (!value.containsKey("borrowing_date"))){
             Toast.makeText(mContext,mContext.getResources().getString(R.string.borrow_success),Toast.LENGTH_SHORT).show();
             return  false;
         }
+
+        log("lendingBook==> isBookBorrowed() : " + isBookBorrowed(isbn) );
         if (isBookBorrowed(isbn)){
           return  false;
         }else {
             //resolver.update(BookUtil.BOOK_URI,value,null,null);
             int flag = updateBook(value);
+            log("lendingBook==> flag:  " + flag );
             if (flag == -1){
                 return  false;
             }
@@ -53,7 +61,7 @@ public class BookController {
 
     public boolean isBookBorrowed(String isbn){
          Cursor c = bookHelper.getReadableDatabase().rawQuery("select * from book where isbn = " + isbn + " and borrower_id !=null", null);
-        return  c != null;
+        return  (c != null && c.getCount() != 0);
 
     }
 
@@ -136,5 +144,9 @@ public class BookController {
              }
         };
         return null;
+    }
+
+    public static void log(String str) {
+        Log.e(TAG, str);
     }
 }

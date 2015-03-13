@@ -66,4 +66,11 @@
     <!-- add strings for activity StaffPutIn -->
     <string name="title_activity_staff_put_in">StaffPutIn</string>
 
+    <!-- add the hint of these edit text widgets -->
+    <string name="hint_bought_date">select date</string>
+    <string name="hint_actual_price">actual price</string>
+    <string name="hint_category_index">category index</string>
+    book_bought_date
+
+
 </resources>

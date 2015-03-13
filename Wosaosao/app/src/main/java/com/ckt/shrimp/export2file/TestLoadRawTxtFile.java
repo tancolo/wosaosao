@@ -192,7 +192,7 @@ public class TestLoadRawTxtFile {
     }
 
     private static void log(String str) {
-        Log.d(TAG, str);
+        Log.e(TAG, str);
     }
 }
 

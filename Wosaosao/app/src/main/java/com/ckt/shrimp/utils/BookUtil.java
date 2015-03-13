@@ -32,7 +32,11 @@ public class BookUtil {
    public static final int RETURN_OK = 1;
    public static final int RESULT_ISBN = 1;
    public static final int RESULT_STUFF = 2;
-    public static final String ISBN_START_STR = "978";
+   public static final String ISBN_START_STR = "978";
+
+   public static final String ACTIVITY_TYPE = "type";
+   public static final int TYPE_BORROW = 1;
+   public static final int TYPE_RETURN = 2;
 
     /**
      * 请求某个url上的图片资源

@@ -36,11 +36,20 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
     private Book mBorrowedBookInfo = new Book();
 
     private static final String TAG = "DEBUG_SAO";
+    private int mStartActivityType = -1;// 1: borrow book; 2: return book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scaning);
+        //get intent, using for judging which function user selected.
+        //set the title scanning activity.
+        mStartActivityType = getIntent().getIntExtra(BookUtil.ACTIVITY_TYPE, -1);
+        if (BookUtil.TYPE_BORROW == mStartActivityType) {
+            ((TextView)findViewById(R.id.activity_title)).setText(R.string.book_lending);
+        }else {
+            ((TextView)findViewById(R.id.activity_title)).setText(R.string.book_return);
+        }
 
         //init the layout
         mButtonScanISbn = (Button)findViewById(R.id.scan_ISBN);

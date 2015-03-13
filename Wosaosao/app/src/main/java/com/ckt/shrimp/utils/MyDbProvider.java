@@ -16,7 +16,6 @@ import com.ckt.shrimp.database.MyBookDataBaseHelper;
 public class MyDbProvider extends ContentProvider{
     private final static int BOOK = 1;
     private final static int STAFF = 2;
-    private final static int BORROW = 3;
     private MyBookDataBaseHelper bookHelper;
 
     @Override
@@ -29,7 +28,6 @@ public class MyDbProvider extends ContentProvider{
     static {
         matcher.addURI(BookUtil.bookAuthority,"book",BOOK);
         matcher.addURI(BookUtil.bookAuthority,"staff",STAFF);
-        matcher.addURI(BookUtil.bookAuthority,"borrow",BORROW);
     }
 
     @Override
@@ -81,9 +79,6 @@ public class MyDbProvider extends ContentProvider{
             break;
             case  STAFF :
               id = bookHelper.getWritableDatabase().delete("staff",s,strings);
-            break;
-            case  BORROW :
-              id = bookHelper.getWritableDatabase().delete("borrow",s,strings);
             break;
             default: return -1;
         }

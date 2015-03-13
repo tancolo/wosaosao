@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ckt.shrimp.controller.StaffController;
 import com.ckt.shrimp.utils.BookUtil;
 import com.ckt.shrimp.utils.ParseAndWriteInfo;
 import com.ckt.shrimp.utils.Staff;
@@ -52,7 +53,14 @@ public class StaffPutIn extends ActionBarActivity implements View.OnClickListene
                 startActivityForResult(openCameraIntent_stuff, BookUtil.RESULT_STUFF);
                 break;
             case R.id.add_staff_info:
+
                 //get all books info, the class BooksInfoWrap contains isbn info and the inputting info.
+                boolean isSuccessInsert = new StaffController(this).addStaff(mStaffInfo);
+                if (isSuccessInsert){
+                    Toast.makeText(this,"insert staff success ........",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(this,"insert staff failed ........",Toast.LENGTH_SHORT).show();
+                }
                 Toast.makeText(StaffPutIn.this, "need jerry to implement", Toast.LENGTH_LONG).show();
                 break;
             default:

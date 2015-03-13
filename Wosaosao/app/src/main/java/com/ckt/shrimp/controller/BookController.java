@@ -34,14 +34,12 @@ public class BookController {
     }
 
 
-    public boolean lendingBook(String bookId,ContentValues value){
-        //resolver.query(BookUtil.BOOK_URI,)
-        //resolver.insert(BookUtil.BOOK_URI,v);
+    public boolean lendingBook(String isbn,ContentValues value){
         if ((!value.containsKey("borrower_id")) || (!value.containsKey("borrower_email")) || (!value.containsKey("borrower")) || (!value.containsKey("borrowing_date"))){
             Toast.makeText(mContext,mContext.getResources().getString(R.string.borrow_success),Toast.LENGTH_SHORT).show();
             return  false;
         }
-        if (isBookBorrowed(bookId)){
+        if (isBookBorrowed(isbn)){
           return  false;
         }else {
             //resolver.update(BookUtil.BOOK_URI,value,null,null);
@@ -53,8 +51,8 @@ public class BookController {
         }
     }
 
-    public boolean isBookBorrowed(String bookId){
-         Cursor c = bookHelper.getReadableDatabase().rawQuery("select * from book where book_id = " + bookId + " and borrower_id !=null", null);
+    public boolean isBookBorrowed(String isbn){
+         Cursor c = bookHelper.getReadableDatabase().rawQuery("select * from book where isbn = " + isbn + " and borrower_id !=null", null);
         return  c != null;
 
     }
@@ -127,5 +125,16 @@ public class BookController {
         values.put("summary",book.getSummary());
         return  values;
 
+    }
+
+    public Cursor queryBorrowByBookISDN(String isbn) {
+         if(bookHelper != null) {
+            Cursor c = bookHelper.getReadableDatabase().rawQuery("select book.* from book  " +
+                    " where  book.isbn= ?", new String[]{isbn});
+             if (c != null && c.getCount() != 0){
+                 return  c;
+             }
+        };
+        return null;
     }
 }

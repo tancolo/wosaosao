@@ -79,7 +79,7 @@ public class ShowBorrowActivity extends ActionBarActivity implements AdapterView
             TextView price =  (TextView)view.findViewById(R.id.book_price);
             TextView borrower =  (TextView)view.findViewById(R.id.borrower);
             TextView borrowingDate =  (TextView)view.findViewById(R.id.borrwing_date);
-            if (cursor != null) {
+            if (cursor != null && cursor.getCount()!=0) {
                 //bookId.setText(cursor.getString(cursor.getColumnIndex("book_id")));
                 bookName.setText(cursor.getString(cursor.getColumnIndex("title")));
                 staffId.setText(cursor.getString(cursor.getColumnIndex("staff_id")));

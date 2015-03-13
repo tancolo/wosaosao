@@ -6,6 +6,8 @@ package com.ckt.shrimp.wosaosao;
  * And the 2d code don't use internet and DB.
  */
 import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.ckt.shrimp.controller.BookController;
 import com.zxing.activity.CaptureActivity;
 import com.ckt.shrimp.utils.*;
 
@@ -71,7 +74,18 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
             case R.id.book_lending_ok:
                 //update the book info and borrower's info to DB
                 //need jerry to implement.
-                Toast.makeText(ScanningActivity.this, "need jerry to implement", Toast.LENGTH_LONG).show();
+                ContentValues values = new ContentValues();
+                values.put("borrower_id",mBorrowedBookInfo.getBookBoughtStaffId());
+                values.put("borrowing_date",mBorrowedBookInfo.getBookBoughtDate());
+                values.put("borrower_email",mBorrowedBookInfo.getBookBoughtStaffEmail());
+                values.put("borrower",mBorrowedBookInfo.getBookBorrower());
+                Toast.makeText(ScanningActivity.this, "isbn........." + mBorrowedBookInfo.getISBN(), Toast.LENGTH_LONG).show();
+                boolean borrowSuccess = new BookController(this).lendingBook(mBorrowedBookInfo.getISBN(),values);
+                if(borrowSuccess){
+                    Toast.makeText(ScanningActivity.this, "借阅成功.........", Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(ScanningActivity.this, "借阅失败.........", Toast.LENGTH_LONG).show();
+                }
                 break;
             default:
                 break;
@@ -116,8 +130,27 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
 
     private void searchInfoByBookId(Book sBook) {
         //need jerry to implement.
-        Toast.makeText(ScanningActivity.this, "need jerry to implement", Toast.LENGTH_LONG).show();
+       Cursor bookAlreadyInDb = new BookController(this).queryBorrowByBookISDN(sBook.getISBN());
+        if (bookAlreadyInDb != null && bookAlreadyInDb.getCount() !=0){
+            bookAlreadyInDb.moveToNext();
+            String isbn =  bookAlreadyInDb.getString(bookAlreadyInDb.getColumnIndex("isbn"));
+            String title = bookAlreadyInDb.getString(bookAlreadyInDb.getColumnIndex("title"));
+            String author = bookAlreadyInDb.getString(bookAlreadyInDb.getColumnIndex("author"));
+            String publisher = bookAlreadyInDb.getString(bookAlreadyInDb.getColumnIndex("publisher"));
+            String price = bookAlreadyInDb.getString(bookAlreadyInDb.getColumnIndex("price"));
+            String subTitle = bookAlreadyInDb.getString(bookAlreadyInDb.getColumnIndex("subtitle"));
+            sBook.setISBN(isbn);
+            sBook.setTitle(title);
+            sBook.setAuthor(author);
+            sBook.setPublisher(publisher);
+            sBook.setPrice(price);
+            sBook.setSubTitle(subTitle);
+            format2text(sBook);
+        }else {
+            Toast.makeText(ScanningActivity.this, "查无此书。。。。。", Toast.LENGTH_LONG).show();
+        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

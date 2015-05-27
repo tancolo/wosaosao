@@ -58,7 +58,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
     private int mDay = 0;
     //private long mDateLong = 0;
 
-    //definition ISBN and Staff info
+    //definition the info of ISBN and Staff
     private Button mButtonScanISbn;
     private Button mButtonScanStuff;
     private TextView mTextScanIsbn;

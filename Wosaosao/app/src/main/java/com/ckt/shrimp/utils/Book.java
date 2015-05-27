@@ -4,64 +4,96 @@ package com.ckt.shrimp.utils;
  * Created by ckt on 3/6/15.
  */
 
+/** This class will contains some information of book.
+ * The Key values are:
+ * Title, SubTitle, Author, Publisher, ISBN, Bitmap, Price.
+ * And For our company's wiki page. We need some others information.
+ * Such as the category, who and  when bought it.
+ *
+ */
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- *
+ *implements the Parcelable, using for expending.
  */
 public class Book implements Parcelable {
     //wiki need
     //图书所属类别
     private String booKCategory;
-    //图书标题
-    private String Title;
+
     //图书所属类别编号
     private String bookCategoryId;
-    //图书作者
-    private String Author;
+
     //图书购买时间
     private String bookBoughtDate;
+
     //图书申请购买部门
     private String bookApplicantDep;
+
     //图书购买申请者name
     private String bookApplicant;
+
     //图书实际购买金额
     private String bookActualPrice;
+
     //图书借阅者部门
     private String bookBorrowerDep;
+
     //图书借阅人name
     private String bookBorrower;
+
     //图书借出时间
     private String bookBorrowingDate;
-
 
     //add other book info.
     //图书购买申请者id
     private String bookBoughtStaffId;
+
     //图书购买申请者email
     private String bookBoughtStaffEmail;
 
     //图书借阅人 id
     private String bookBorrowerId;
+
     //图书借阅者email
     private String bookBorrowerEmail;
 
 
-    //other info
+    //Basic Book info, we get it from website (Douban). Very important.
+    //using key values.
     //图书ID
-    private String id;
+    private String id;//the same books has only id.
+
+    //图书标题
+    private String Title;
+
     //图书副标题
     private String SubTitle;
-    //作者信息
-    private String AuthorInfo;
+
+    //图书作者
+    private String Author;
+
     //图书出版社
     private String Publisher;
+
     //出版时间
     private String PublishDate;
+
     //图书ISBN码
     private String ISBN;
+
+    //图书图片
+    private Bitmap Bitmap;
+
+    //图书价格
+    private String Price;
+
+
+    //not using key value. You can save these values if you want.
+    //作者信息
+    private String AuthorInfo;
     //图书页数
     private String Page;
     //图书评分
@@ -72,12 +104,6 @@ public class Book implements Parcelable {
     private String Content;
     //图书摘要
     private String Summary;
-    //图书图片
-    private Bitmap Bitmap;
-    //借书者id
-    private String staffId;//maybe not used
-    //图书价格
-    private String Price;
 
 
 
@@ -110,13 +136,6 @@ public class Book implements Parcelable {
     }
     public void setBookBoughtStaffId(String bookBoughtStaffId) {
         this.bookBoughtStaffId = bookBoughtStaffId;
-    }
-    public String getStaffId() {
-        return staffId;
-    }
-
-    public void setStaffId(String staffId) {
-        this.staffId = staffId;
     }
 
     public String getBooKCategory() {
@@ -191,6 +210,8 @@ public class Book implements Parcelable {
         this.bookBorrowingDate = bookBorrowingDate;
     }
 
+
+    //For basic information. The function should be Used.
     //id
     public String getId() {
         return id;
@@ -223,14 +244,6 @@ public class Book implements Parcelable {
         Author = author;
     }
 
-    //author info
-    public String getAuthorInfo() {
-        return AuthorInfo;
-    }
-    public void setAuthorInfo(String authorInfo) {
-        AuthorInfo = authorInfo;
-    }
-
     //publisher
     public String getPublisher() {
         return Publisher;
@@ -261,6 +274,24 @@ public class Book implements Parcelable {
     }
     public void setPrice(String price) {
         Price = price;
+    }
+
+    //bitmap info
+    public Bitmap getBitmap() {
+        return Bitmap;
+    }
+    public void setBitmap(Bitmap bitmap) {
+        Bitmap = bitmap;
+    }
+
+
+    //For the other basic information. The function not be Used.
+    //author info
+    public String getAuthorInfo() {
+        return AuthorInfo;
+    }
+    public void setAuthorInfo(String authorInfo) {
+        AuthorInfo = authorInfo;
     }
 
     //page info
@@ -303,13 +334,6 @@ public class Book implements Parcelable {
         Summary = summary;
     }
 
-    //bitmap info
-    public Bitmap getBitmap() {
-        return Bitmap;
-    }
-    public void setBitmap(Bitmap bitmap) {
-        Bitmap = bitmap;
-    }
 
     /*
      * 实现Parcelable接口的方法
@@ -330,22 +354,25 @@ public class Book implements Parcelable {
     public static Parcelable.Creator<Book> CREATOR = new Creator<Book>() {
         public Book createFromParcel(Parcel source) {
             Book bookInfo = new Book();
+            bookInfo.id = source.readString();
             bookInfo.Title = source.readString();
             bookInfo.SubTitle = source.readString();
-            bookInfo.Bitmap = source.readParcelable(Bitmap.class.getClassLoader());
             bookInfo.Author = source.readString();
             bookInfo.Publisher = source.readString();
             bookInfo.PublishDate = source.readString();
             bookInfo.ISBN = source.readString();
-            bookInfo.Summary = source.readString();
-            bookInfo.id = source.readString();;
+            bookInfo.Bitmap = source.readParcelable(Bitmap.class.getClassLoader());
+            bookInfo.Price = source.readString();
+
+            //It should add other book info. But I don't add those info at present.
+            /*bookInfo.Summary = source.readString();
             bookInfo.AuthorInfo = source.readString();
             bookInfo.Page = source.readString();
-            bookInfo.Price = source.readString();;
             bookInfo.Rate = source.readString();
             bookInfo.Tag = source.readString();
             bookInfo.Content = source.readString();
-            //add other book info.but I don't add those info at present.
+            */
+
             return bookInfo;
         }
         public Book[] newArray(int size) {
@@ -358,43 +385,47 @@ public class Book implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(Title);
         dest.writeString(SubTitle);
-        dest.writeParcelable(Bitmap, flags);
         dest.writeString(Author);
         dest.writeString(Publisher);
         dest.writeString(PublishDate);
         dest.writeString(ISBN);
+        dest.writeParcelable(Bitmap, flags);
+        dest.writeString(Price);
+
+        //add other book info.but I don't add those info at present.
+        /*
         dest.writeString(Summary);
-        dest.writeString(id);
         dest.writeString(AuthorInfo);
         dest.writeString(Page);
-        dest.writeString(Price);
         dest.writeString(Rate);
         dest.writeString(Tag);
         dest.writeString(Content);
-        //add other book info.but I don't add those info at present.
+        */
     }
 
     //init all strings to ""
     public Book() {
-        //the ISBN info
+        //The basic info of book. The key values.
         id = "";
         Title = "";
         SubTitle = "";
         Author = "";
-        AuthorInfo = "";
         Publisher = "";
         PublishDate = "";
         ISBN = "";
+        Bitmap = null;
         Price = "";
+
+        //not used values.
         Page = "";
         Rate = "";
         Tag = "";
         Content = "";
         Summary = "";
-        Bitmap = null;
-        staffId = "";
+        AuthorInfo = "";
 
         //book's other info.
         booKCategory = "";
@@ -407,6 +438,9 @@ public class Book implements Parcelable {
         bookBorrower = "";
         bookBorrowingDate = "";
         bookBoughtStaffId = "";
+        bookBoughtStaffEmail = "";
+        bookBorrowerId = "";
+        bookBorrowerEmail = "";
     }
 
 }

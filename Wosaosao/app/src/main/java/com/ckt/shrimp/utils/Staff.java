@@ -5,51 +5,58 @@ package com.ckt.shrimp.utils;
  */
 public class Staff {
 
-    private String name = null;
-    private String id = null;
-    private String department = null;
-    private String email = null;
+    private String staffName = null;
+    private String staffId = null;
+    private String staffDepartment = null;
+    private String staffEmail = null;
 
-    //add by colo start
-    public Staff () {
-        name = "";
-        id = "";
-        department = "";
-        email = "";
+
+    public Staff() {
+        this.staffName = "";
+        this.staffId = "";
+        this.staffDepartment = "";
+        this.staffEmail = "";
     }
 
-    public String getEmail() {
-        return email;
+    public String getStaffName() {
+        return staffName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    // add by colo end
-
-    public String getDepartment() {
-        return department;
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public String getStaffId() {
+        return staffId;
     }
 
-    public String getName() {
-        return name;
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getStaffDepartment() {
+        return staffDepartment;
     }
 
-    public String getId() {
-        return id;
+    public void setStaffDepartment(String staffDepartment) {
+        this.staffDepartment = staffDepartment;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getStaffEmail() {
+        return staffEmail;
     }
 
+    public void setStaffEmail(String staffEmail) {
+        this.staffEmail = staffEmail;
+    }
 
+    @Override
+    public String toString() {
+        return "Staff{" +
+                "staffName='" + staffName + '\'' +
+                ", staffId='" + staffId + '\'' +
+                ", staffDepartment='" + staffDepartment + '\'' +
+                ", staffEmail='" + staffEmail + '\'' +
+                '}';
+    }
 }

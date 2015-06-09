@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -71,6 +70,10 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
     //private String[] mSeleCategoryZch = null;
     private int posCategoryIndex = 0;
 
+    //API of Douban website
+    private static final String DOUBAN_URL = "https://api.douban.com/v2/book/isbn/:";
+    private static final String CAPTURE_RESULT = "result";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +111,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         mTextScanStuff = (TextView)findViewById(R.id.scan_stuff_result);
         mButtonScanISbn.setOnClickListener(this);
         mButtonScanStuff.setOnClickListener(this);
-        bookController = new BookController(this);
+        //bookController = new BookController(this);
 
         //save the category id, it must be english.
         /** The category id is eng string:
@@ -118,7 +121,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
          *  "网络",  --> CKT-CD YF-WL-0001
          *  "测试".  --> CKT-CD YF-CS-0001
          */
-        //So, need to judge category is string. should get the array strings.R.id.book_category_spinner_eng
+        //So, need to judge category is string or not. should get the array strings.R.id.book_category_spinner_eng
         mSeleCategoryEng = this.getResources().getStringArray(R.array.book_category_spinner_eng);
         //only for debugging
         if (mSeleCategoryEng != null ) {
@@ -136,10 +139,10 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
             super.handleMessage(msg);
 
             Book book = (Book)msg.obj;
-            //进度条消失
+            //dismissing the progress bar
             mProgressDialog.dismiss();
             if (book == null) {
-                Toast.makeText(BooksPutIn.this, "没有找到这本书", Toast.LENGTH_LONG).show();
+                Toast.makeText(BooksPutIn.this, getResources().getString(R.string.notice_not_found_book), Toast.LENGTH_LONG).show();
             }else {
                 //should show the info of this book.
                 //at present only focus on below info:
@@ -153,16 +156,15 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
     @Override
     public void onClick(View view) {
         //both call the same api of zxing.
-        int viewId = view.getId();
-        switch(viewId) {
+        switch(view.getId()) {
             case R.id.scan_ISBN:
-                //打开扫描界面扫描条形码
+                //Open the capture UI, scan the bar code of ISBN.
                 Intent openCameraIntent_ISBN = new Intent(BooksPutIn.this, CaptureActivity.class);
                 startActivityForResult(openCameraIntent_ISBN, BookUtil.RESULT_ISBN);
                 break;
             case R.id.scan_staff_info:
                 //call zxing API
-                //打开扫描界面扫描二维码
+                //Open the capture UI, scan the  two-dimension code.
                 Intent openCameraIntent_stuff = new Intent(BooksPutIn.this, CaptureActivity.class);
                 startActivityForResult(openCameraIntent_stuff, BookUtil.RESULT_STUFF);
                 break;
@@ -182,14 +184,15 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                 mBooksInfoWrap.setBookBoughtDate(mBookBoughtDate.getText().toString());//get the bought date.
                 //dump all Book info
                 dump(mBooksInfoWrap);
-                if(bookController != null){
-                 Uri u =  bookController.addBook(mBooksInfoWrap);
-                  if (u != null){
-                      Toast.makeText(this,"add success",Toast.LENGTH_SHORT).show();
-                  }else {
-                      Toast.makeText(this,"add not success",Toast.LENGTH_SHORT).show();
-                  }
-                }
+//
+//                if(bookController != null){
+//                 Uri u =  bookController.addBook(mBooksInfoWrap);
+//                  if (u != null){
+//                      Toast.makeText(this,"add success",Toast.LENGTH_SHORT).show();
+//                  }else {
+//                      Toast.makeText(this,"add not success",Toast.LENGTH_SHORT).show();
+//                  }
+//                }
                 break;
             default:
                 break;
@@ -201,31 +204,31 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         super.onActivityResult(requestCode, resultCode, data);
 
         log("requestCode = " + requestCode +", resultCode = " + resultCode);
-        //处理扫描结果（在界面上显示）仅仅是用于测试，后续有显示的地方
+        //process the result of scanning, and show the result for debugging.
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("result");
+            String scanResult = bundle.getString(CAPTURE_RESULT);
             if (BookUtil.RESULT_ISBN == requestCode) {// value 1 means ISBN.
                 mTextScanIsbn.setText(scanResult);
-                //判断网络是否连接
+                //Is the network connected??
                 if(BookUtil.isNetworkConnected(this)) {
                     mProgressDialog = new ProgressDialog(this);
-                    mProgressDialog.setMessage("请稍候，正在读取信息...");
+                    mProgressDialog.setMessage(getResources().getString(R.string.notice_read_bookinfo));
                     mProgressDialog.show();
-                    String urlstr = "https://api.douban.com/v2/book/isbn/:"+scanResult;
-                    log("urlstr : " + urlstr);
+                    String urlStr = DOUBAN_URL + scanResult;
+                    log("urlStr : " + urlStr);
 
-                    //扫到ISBN后，启动下载线程下载图书信息
-                    new LoadParseBookThread(urlstr).start();
+                    //Start a new thread to download the book info.
+                    new LoadParseBookThread(urlStr).start();
                 }else {
-                    Toast.makeText(this, "网络异常，请检查你的网络连接", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getResources().getString(R.string.notice_network_error), Toast.LENGTH_LONG).show();
                 }
             }else { // value 2 means two dimension code about stuff info.
                 mTextScanStuff.setText(scanResult);
                 //need to parse staff info from the 2D code. static function
                 //need to pass the BookWrap
                 if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, mBooksInfoWrap, null)) {
-                    Toast.makeText(BooksPutIn.this, "获取职员二维码信息有误，请重新扫描", Toast.LENGTH_LONG).show();
+                    Toast.makeText(BooksPutIn.this, getResources().getString(R.string.notice_get_staff_info_error), Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -234,9 +237,9 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
     private class LoadParseBookThread extends Thread {
         private String url;
 
-        //通过构造函数传递url地址
-        public LoadParseBookThread(String urlstr) {
-            url = urlstr;
+        //pass the url to the constructor
+        public LoadParseBookThread(String urlStr) {
+            url = urlStr;
         }
 
         public void run() {
@@ -246,7 +249,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
             log("getHttpRequest(): " + result);
             try {
                 Book book = new BookUtil().parseBookInfo(result);
-                //给主线程UI界面发消息，提醒下载信息，解析信息完毕
+                //send the message to UI thread, notify the downloading info.
                 msg.obj = book;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -349,30 +352,29 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         //at present only focus on below info:
         //ISBN, title and subtitle, author, publisher, price.
 
-        String scanResult = "";
+        StringBuffer scanResult = new StringBuffer();
         //isbn
-        scanResult += book.getISBN();
-        scanResult += "\n";
+        scanResult.append(book.getISBN());
         //title
-        scanResult += book.getTitle();
-        scanResult += "\n";
+        scanResult.append(book.getTitle());
+        scanResult.append("\n");
         //subtitle
         log("getSubTitle = " + book.getSubTitle().isEmpty() );
         if (book.getSubTitle() != null && !book.getSubTitle().isEmpty()) {
             log("====here======");
-            scanResult += book.getSubTitle();
-            scanResult += "\n";
+            scanResult.append(book.getSubTitle());
+            scanResult.append("\n");
         }
         //author
-        scanResult += book.getAuthor();
-        scanResult += "\n";
+        scanResult.append(book.getAuthor());
+        scanResult.append("\n");
 
         //publisher
-        scanResult += book.getPublisher();
-        scanResult += "\n";
+        scanResult.append(book.getPublisher());
+        scanResult.append("\n");
 
         //publish date
-        scanResult += book.getPrice();
+        scanResult.append(book.getPrice());
 
         log("RESULT: " + scanResult);
         mTextScanIsbn.setText(scanResult.toString());
@@ -384,6 +386,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
      * So need to add something transformation. User input 1, the out should be 0001.
      * @param strIndex
      * @return
+     * Now, this function isn't be used yet.
      */
     private String formatCategoryIndex(String strIndex) {
         if (strIndex == null || strIndex.isEmpty())
@@ -416,7 +419,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
 
         //third, the staff who bought book.
         log(" Staff id: " + book.getBookBoughtStaffId()
-        +"\n Staff name: " + book.getBookApplicant()
+        +"\n Staff name: " + book.getBookApplicantName()
         +"\n Staff email: " + book.getBookBoughtStaffEmail()
         +"\n Staff dep: " + book.getBookApplicantDep());
 

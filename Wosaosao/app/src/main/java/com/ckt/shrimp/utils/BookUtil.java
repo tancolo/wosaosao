@@ -39,7 +39,7 @@ public class BookUtil {
    public static final int TYPE_RETURN = 2;
 
     /**
-     * 请求某个url上的图片资源
+     * get the bitmap resource from the url
      * @param String bmurl
      * @return Bitmap
      */
@@ -51,12 +51,12 @@ public class BookUtil {
             URL  url = new URL(bmurl);
             URLConnection connection = url.openConnection();
             bis = new BufferedInputStream(connection.getInputStream());
-            //将请求返回的字节流编码成Bitmap
+            //Transform the byte stream into Bitmap
             bm = BitmapFactory.decodeStream(bis);
         }catch (Exception e){
             e.printStackTrace();
         }
-        //关闭IO流
+        //close the IO stream
         finally {
             try {
                 if(bis != null)
@@ -71,27 +71,30 @@ public class BookUtil {
     }
 
     /**
-     * 解析图书JSON数据,把解析的数据封装在一个Book对象中
+     * For Parsing the JSON data of the books, and then packaging these data as a Book.
      * @param String
      * @return Book
      */
     public Book parseBookInfo(String str) {
         Book info = new Book();
         try {
-            //先从String得到一个JSONObject对象
+            //Getting the JSONObject from the result string.
+            //key values
             JSONObject mess = new JSONObject(str);
             info.setId(mess.getString("id"));
-            info.setSubTitle(mess.getString("subtitle"));//add by tancolo
             info.setTitle(mess.getString("title"));
-            info.setBitmap(downLoadBitmap(mess.getString("image")));
+            info.setSubTitle(mess.getString("subtitle"));//add by tancolo
             info.setAuthor(parseAuthor(mess.getJSONArray("author")));
             info.setPublisher(mess.getString("publisher"));
             info.setPublishDate(mess.getString("pubdate"));
             info.setISBN(mess.getString("isbn13"));
+            info.setBitmap(downLoadBitmap(mess.getString("image")));//bitmap
+            info.setPrice(mess.getString("price"));
+
+            //not used values, you can add it which you wanted.
             info.setSummary(mess.getString("summary"));
             info.setAuthorInfo(mess.getString("author_intro"));
             info.setPage(mess.getString("pages"));
-            info.setPrice(mess.getString("price"));
             info.setContent(mess.getString("catalog"));
             info.setRate(mess.getJSONObject("rating").getString("average"));
             info.setTag(parseTags(mess.getJSONArray("tags")));
@@ -104,7 +107,7 @@ public class BookUtil {
 
 
     /**
-     * 针对豆瓣图书的特殊信息，抽出一个parseTags方法解析图书标签信息
+     * For parsing the information of the book's TAG, because the Douban has some special info in their books.
      * @param JSONArray obj
      * @return String
      */
@@ -121,7 +124,7 @@ public class BookUtil {
     }
 
     /**
-     * 针对豆瓣图书的特殊信息，抽出一个parseAuthor方法解析作者信息
+     * For parsing the information of the Author, because the Douban has some special info in their books.
      * @param JSONArray arr
      * @return String
      */
@@ -139,21 +142,22 @@ public class BookUtil {
 
 
     /**
-     * 对url的地址发送get方式的Http请求
+     * Send the Http's request with the address of url
      * @param String url
      * @return String
      */
     public static String getHttpRequest(String url) {
-        String content = "";
+        //should use the StringBuilder or StringBuffer, String is not used.
+        StringBuffer jsonContent = new StringBuffer();
         try {
             URL getUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) getUrl.openConnection();
             connection.connect();
-            // 取得输入流，并使用Reader读取
+            //Getting the inputting stream, and then read the stream.
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String lines = "";
             while ((lines = reader.readLine()) != null) {
-                content += lines;
+                jsonContent.append(lines);
             }
             reader.close();
             connection.disconnect();
@@ -162,7 +166,7 @@ public class BookUtil {
         }
         //ScanningActivity.log("getHttpRequest(): " + content);
         //BooksPutIn.log("getHttpRequest(): " + content);
-        return content;
+        return jsonContent.toString();
     }
 
 

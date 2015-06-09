@@ -25,13 +25,14 @@ public class StaffController {
 
     public boolean addStaff(Staff e){
         ContentValues v = new ContentValues();
-        if (e == null ||"".equals(e.getId()) || "".equals(e.getDepartment()) || "".equals(e.getEmail()) || "".equals(e.getName())){
+        if (e == null ||"".equals(e.getStaffId()) || "".equals(e.getStaffDepartment()) ||
+                "".equals(e.getStaffEmail()) || "".equals(e.getStaffName())){
             return  false;
         }
-        v.put("staff_id",e.getId());
-        v.put("name",e.getName());
-        v.put("staff_department",e.getDepartment());
-        v.put("staff_email",e.getEmail());
+        v.put("staff_id",e.getStaffId());
+        v.put("name",e.getStaffName());
+        v.put("staff_department",e.getStaffDepartment());
+        v.put("staff_email",e.getStaffEmail());
         Uri uri = resolver.insert(BookUtil.STAFF_URI, v);
         if (uri != null){
             return  true;

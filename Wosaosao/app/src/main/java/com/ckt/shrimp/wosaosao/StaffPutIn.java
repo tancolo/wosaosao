@@ -27,6 +27,8 @@ public class StaffPutIn extends ActionBarActivity implements View.OnClickListene
     private static final String TAG = "StaffPutIn";
     private Staff mStaffInfo = new Staff();
 
+    private static final String CAPTURE_RESULT = "result";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,7 @@ public class StaffPutIn extends ActionBarActivity implements View.OnClickListene
         switch(viewId) {
             case R.id.scan_staff_info:
                 //call zxing API
-                //打开扫描界面扫描二维码
+                //Open the capture UI, scan the  two-dimension code.
                 Intent openCameraIntent_stuff = new Intent(StaffPutIn.this, CaptureActivity.class);
                 startActivityForResult(openCameraIntent_stuff, BookUtil.RESULT_STUFF);
                 break;
@@ -57,11 +59,12 @@ public class StaffPutIn extends ActionBarActivity implements View.OnClickListene
                 //get all books info, the class BooksInfoWrap contains isbn info and the inputting info.
                 boolean isSuccessInsert = new StaffController(this).addStaff(mStaffInfo);
                 if (isSuccessInsert){
-                    Toast.makeText(this,"insert staff success ........",Toast.LENGTH_SHORT).show();
+                    //need to package all the toast, one function named showToast()
+                    Toast.makeText(this, getResources().getString(R.string.notice_success_insert_staff), Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(this,"insert staff failed ........",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.notice_failed_insert_staff), Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(StaffPutIn.this, "need jerry to implement", Toast.LENGTH_LONG).show();
+                //Toast.makeText(StaffPutIn.this, "need jerry to implement", Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;
@@ -73,17 +76,17 @@ public class StaffPutIn extends ActionBarActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
 
         log("requestCode = " + requestCode +", resultCode = " + resultCode);
-        //处理扫描结果（在界面上显示）仅仅是用于测试，后续有显示的地方
+        //process the result of scanning, and show the result for debugging.
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("result");
+            String scanResult = bundle.getString(CAPTURE_RESULT);
             if (BookUtil.RESULT_STUFF == requestCode) {
                 // value 2 means two dimension code about stuff info.
                 mTextScanStuff.setText(scanResult);
                 //need to parse staff info from the 2D code. static function
                 //need to pass the BookWrap
                 if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, null, mStaffInfo)) {
-                    Toast.makeText(StaffPutIn.this, "获取职员二维码信息有误，请重新扫描", Toast.LENGTH_LONG).show();
+                    Toast.makeText(StaffPutIn.this, getResources().getString(R.string.notice_get_staff_info_error), Toast.LENGTH_LONG).show();
                 }
             }
         }

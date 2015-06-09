@@ -8,13 +8,10 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.ckt.shrimp.database.MyBookDataBaseHelper;
+import com.ckt.shrimp.database.BookInfoDataBaseHelper;
 import com.ckt.shrimp.utils.Book;
 import com.ckt.shrimp.utils.BookUtil;
-import com.ckt.shrimp.utils.MyDbProvider;
 import com.ckt.shrimp.wosaosao.R;
-
-import java.util.List;
 
 /**
  * Created by ckt on 09/03/15.
@@ -24,7 +21,7 @@ public class BookController {
     private static final String TAG = "DEBUG_SAO";
     private Context mContext;
     private ContentResolver resolver;
-    public static MyBookDataBaseHelper bookHelper;
+    public static BookInfoDataBaseHelper bookHelper;
 
 
     public  BookController(Context c){
@@ -113,7 +110,7 @@ public class BookController {
         values.put("author",book.getAuthor());
         values.put("bought_date",book.getBookBoughtDate());
         values.put("applicant_dep",book.getBookApplicantDep());
-        values.put("applicant",book.getBookApplicant());
+        values.put("applicant",book.getBookApplicantName());
         values.put("actual_price",book.getBookActualPrice());
 
         values.put("applicant_id",book.getBookBoughtStaffId());

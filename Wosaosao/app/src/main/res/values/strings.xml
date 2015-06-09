@@ -70,7 +70,14 @@
     <string name="hint_bought_date">select date</string>
     <string name="hint_actual_price">actual price</string>
     <string name="hint_category_index">category index</string>
-    book_bought_date
+
+    <!-- add strings for notice-->
+    <string name="notice_not_found_book">Not found the book</string>
+    <string name="notice_read_bookinfo">Please wait, reading information...</string>
+    <string name="notice_network_error">Network Error, Please check the network!</string>
+    <string name="notice_get_staff_info_error">The info of the two-dimension code is error, please scan it again!</string>
+    <string name="notice_success_insert_staff">Insert staff to Success... ...</string>
+    <string name="notice_failed_insert_staff">Insert staff to Failed... ...！</string>
 
 
 </resources>

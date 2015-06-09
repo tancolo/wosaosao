@@ -33,7 +33,7 @@ public class Book implements Parcelable {
     private String bookApplicantDep;
 
     //图书购买申请者name
-    private String bookApplicant;
+    private String bookApplicantName;
 
     //图书实际购买金额
     private String bookActualPrice;
@@ -64,7 +64,7 @@ public class Book implements Parcelable {
     //Basic Book info, we get it from website (Douban). Very important.
     //using key values.
     //图书ID
-    private String id;//the same books has only id.
+    private String IsbnId;//the same books has one id. different from ISBN.
 
     //图书标题
     private String Title;
@@ -170,12 +170,12 @@ public class Book implements Parcelable {
         this.bookApplicantDep = bookApplicantDep;
     }
 
-    public String getBookApplicant() {
-        return bookApplicant;
+    public String getBookApplicantName() {
+        return bookApplicantName;
     }
 
-    public void setBookApplicant(String bookApplicant) {
-        this.bookApplicant = bookApplicant;
+    public void setBookApplicantName(String bookApplicantName) {
+        this.bookApplicantName = bookApplicantName;
     }
 
     public String getBookActualPrice() {
@@ -214,10 +214,10 @@ public class Book implements Parcelable {
     //For basic information. The function should be Used.
     //id
     public String getId() {
-        return id;
+        return IsbnId;
     }
     public void setId(String id) {
-        this.id = id;
+        this.IsbnId = id;
     }
 
     //title
@@ -354,7 +354,7 @@ public class Book implements Parcelable {
     public static Parcelable.Creator<Book> CREATOR = new Creator<Book>() {
         public Book createFromParcel(Parcel source) {
             Book bookInfo = new Book();
-            bookInfo.id = source.readString();
+            bookInfo.IsbnId = source.readString();
             bookInfo.Title = source.readString();
             bookInfo.SubTitle = source.readString();
             bookInfo.Author = source.readString();
@@ -385,7 +385,7 @@ public class Book implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeString(IsbnId);
         dest.writeString(Title);
         dest.writeString(SubTitle);
         dest.writeString(Author);
@@ -409,7 +409,7 @@ public class Book implements Parcelable {
     //init all strings to ""
     public Book() {
         //The basic info of book. The key values.
-        id = "";
+        IsbnId = "";
         Title = "";
         SubTitle = "";
         Author = "";
@@ -419,20 +419,12 @@ public class Book implements Parcelable {
         Bitmap = null;
         Price = "";
 
-        //not used values.
-        Page = "";
-        Rate = "";
-        Tag = "";
-        Content = "";
-        Summary = "";
-        AuthorInfo = "";
-
         //book's other info.
         booKCategory = "";
         bookCategoryId = "";
         bookBoughtDate = "";
         bookApplicantDep = "";
-        bookApplicant = "";
+        bookApplicantName = "";
         bookActualPrice = "";
         bookBorrowerDep = "";
         bookBorrower = "";
@@ -441,6 +433,14 @@ public class Book implements Parcelable {
         bookBoughtStaffEmail = "";
         bookBorrowerId = "";
         bookBorrowerEmail = "";
+
+        //not used values.
+        Page = "";
+        Rate = "";
+        Tag = "";
+        Content = "";
+        Summary = "";
+        AuthorInfo = "";
     }
 
 }

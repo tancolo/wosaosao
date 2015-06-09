@@ -1,26 +1,16 @@
 package com.ckt.shrimp.wosaosao;
 
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.ckt.shrimp.database.MyBookDataBaseHelper;
-import com.ckt.shrimp.utils.Book;
+import com.ckt.shrimp.database.BookInfoDataBaseHelper;
 import com.ckt.shrimp.utils.BookUtil;
-import com.ckt.shrimp.utils.Staff;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.ckt.shrimp.export2file.TestLoadRawTxtFile;
 
 
 public class WosaoActivity extends ActionBarActivity implements View.OnClickListener {
@@ -31,7 +21,7 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
     private Button mBookPutIn;
     private Button mStaffPutIn;
 
-    MyBookDataBaseHelper bookHelper;
+    BookInfoDataBaseHelper bookHelper;
 
     private static final String SCANNING_CLASS = "./ScanningActivity";
     //private static final String BOOK_TEST_CLASS = "./ScanningActivity";
@@ -63,24 +53,18 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
         Intent onClickIntent = new Intent();
         switch(viewId) {
             case R.id.book_input:
-                //Intent intentBooksPutIn = new Intent(WosaoActivity.this, BooksPutIn.class);
                 onClickIntent.setComponent(new ComponentName(WosaoActivity.this, BooksPutIn.class));
-                //startActivity(onClickIntent);
                 break;
             case R.id.staff_input:
-                //Intent intentStaffPutIn = new Intent(WosaoActivity.this, StaffPutIn.class);
                 onClickIntent.setComponent(new ComponentName(WosaoActivity.this, StaffPutIn.class));
-                //startActivity(onClickIntent);
                 break;
             case R.id.book_lending:
                 onClickIntent.setComponent(new ComponentName(WosaoActivity.this, ScanningActivity.class));
                 onClickIntent.putExtra(BookUtil.ACTIVITY_TYPE, BookUtil.TYPE_BORROW);
-                //startActivity(onClickIntent);
                 break;
             case R.id.book_return:
                 onClickIntent.setComponent(new ComponentName(WosaoActivity.this, ScanningActivity.class));
                 onClickIntent.putExtra(BookUtil.ACTIVITY_TYPE, BookUtil.TYPE_RETURN);
-                //startActivity(intent);
                 break;
             case R.id.book_export:
                 //TestLoadRawTxtFile txtFile = new TestLoadRawTxtFile();

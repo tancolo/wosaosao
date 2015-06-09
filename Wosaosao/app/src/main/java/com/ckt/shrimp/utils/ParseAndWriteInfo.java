@@ -32,24 +32,24 @@ public class ParseAndWriteInfo {
                 //Book tBookWrap = new Book();
                 //get the values from staffInfo use "," to split.
                 tBookWrap.setBookBoughtStaffId(split[0]);
-                tBookWrap.setBookApplicant(split[1]);
+                tBookWrap.setBookApplicantName(split[1]);
                 tBookWrap.setBookBoughtStaffEmail(split[2]);
                 tBookWrap.setBookApplicantDep(split[3]);
 
                 //dump staff info.
-                log(tBookWrap.getBookBoughtStaffId() + ", " + tBookWrap.getBookApplicant() + ", " + tBookWrap.getBookBoughtStaffEmail()
+                log(tBookWrap.getBookBoughtStaffId() + ", " + tBookWrap.getBookApplicantName() + ", " + tBookWrap.getBookBoughtStaffEmail()
                         + ", " + tBookWrap.getBookApplicantDep());
                 //end dump
                 //return tBookWrap;
             } else if (tStaff != null) {
-                tStaff.setId(split[0]);
-                tStaff.setName(split[1]);
-                tStaff.setEmail(split[2]);
-                tStaff.setDepartment(split[3]);
+                tStaff.setStaffId(split[0]);
+                tStaff.setStaffName(split[1]);
+                tStaff.setStaffEmail(split[2]);
+                tStaff.setStaffDepartment(split[3]);
 
                 //dump staff info.
-                log(tStaff.getId() + ", " + tStaff.getName() + ", " + tStaff.getEmail()
-                        + ", " + tStaff.getDepartment());
+                log(tStaff.getStaffId() + ", " + tStaff.getStaffName() + ", " + tStaff.getStaffEmail()
+                        + ", " + tStaff.getStaffDepartment());
                 //end dump
                 //return tStaff;
             }else {

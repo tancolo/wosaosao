@@ -8,19 +8,24 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.ckt.shrimp.controller.BookController;
-import com.ckt.shrimp.database.MyBookDataBaseHelper;
+import com.ckt.shrimp.database.BookInfoDataBaseHelper;
 
 /**
  * Created by ckt on 09/03/15.
+ *
+ * 2015.06.09
+ * At present, I don't think the ContentProvider is needed in this app.
+ * So this class is not used from now on.
  */
+
 public class MyDbProvider extends ContentProvider{
     private final static int BOOK = 1;
     private final static int STAFF = 2;
-    private MyBookDataBaseHelper bookHelper;
+    private BookInfoDataBaseHelper bookHelper;
 
     @Override
     public boolean onCreate() {
-        bookHelper = new MyBookDataBaseHelper(this.getContext(),"saosao",null,1);
+        bookHelper = new BookInfoDataBaseHelper(this.getContext(),"saosao",null,1);
         BookController.bookHelper = bookHelper;
         return false;
     }

@@ -7,15 +7,38 @@ import android.widget.Toast;
 
 /**
  * Created by ckt on 06/03/15.
+ *
+ * 2015.06.09
+ * optimize the BookInfoDataBaseHelper, contain string, the function, the container of key values.
  */
+
+/** The construction of Table
+ * ------Field-------------type-----------full size-----------e.g value-------------------------
+ * |    _id            |  integer       |   infinite   |    1
+ * |    isbn_id        |  varchar       |    16        |    20480692
+ * |    book_id        |        |    16        |
+ * |    book_id        |  20480692      |    16        |
+ * |    book_id        |  20480692      |    16        |
+ * |    book_id        |  20480692      |    16        |
+ * |    book_id        |  20480692      |    16        |
+ *
+ */
+
 public class BookInfoDataBaseHelper extends SQLiteOpenHelper {
 
-    private String TABLE_SQL_BOOK = "create table book (_id integer primary key autoincrement,"+
-                                    "book_id varchar(16) unique not NULL," +
+    private static final String TABLE_SQL_BOOK = "create table book (_id integer primary key autoincrement, "
+            + "isbn_id varchar(16) unique not NULL,"
+            + "title nvarchar(60), "
+            + "subtitle nvarchar(60), "
+            + "author nvarchar(60), "
+            + "publisher nvarchar(60), "
+            + "publish_date  datetime(16), "
+            + "isbn_13  varchar(20),"
+            +
                                     "category varchar(8), " +
-                                    "title varchar(30), "+
+                                    //"title varchar(30), "+
                                     "category_id  varchar(16), " +
-                                    "author varchar(50), "+
+                                    //"author varchar(50), "+
                                     "bought_date  varchar(12), " +
                                     "applicant_dep  varchar(12), " +
                                     "applicant  varchar(8), " +
@@ -27,11 +50,11 @@ public class BookInfoDataBaseHelper extends SQLiteOpenHelper {
                                     "applicant_email varchar(20) ,"+
                                     "borrower_id varchar(6),"+
                                     "borrower_email varchar(20),"+
-                                    "subtitle varchar(30), "+
+
                                     "author_info varchar(100), "+
-                                    "publisher  varchar(30), "+
-                                    "publish_date  datetime(16), "+
-                                    "isbn  varchar(20)," +
+                                    //"publisher  varchar(30), "+
+                                    //"publish_date  datetime(16), "+
+                                    //"isbn  varchar(20)," +
                                     "page  integer(5), "+
                                     "rate  integer(1)," +
                                     "tag  varchar(30), " +

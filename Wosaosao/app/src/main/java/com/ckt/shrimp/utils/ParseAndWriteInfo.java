@@ -1,7 +1,5 @@
 package com.ckt.shrimp.utils;
 
-import android.util.Log;
-
 /**
  * Created by ckt on 3/12/15.
  * the staff info only contain 4 parts, like this.

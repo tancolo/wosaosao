@@ -16,65 +16,62 @@ import android.widget.Toast;
  * ------Field-------------type-----------full size-----------e.g value-------------------------
  * |    _id            |  integer       |   infinite   |    1
  * |    isbn_id        |  varchar       |    16        |    20480692
- * |    book_id        |        |    16        |
- * |    book_id        |  20480692      |    16        |
- * |    book_id        |  20480692      |    16        |
- * |    book_id        |  20480692      |    16        |
- * |    book_id        |  20480692      |    16        |
- *
+ ... ...
+ * ---------------------------------------------------------------------------------------------
  */
 
 public class BookInfoDataBaseHelper extends SQLiteOpenHelper {
 
-    private static final String TABLE_SQL_BOOK = "create table book (_id integer primary key autoincrement, "
-            + "isbn_id varchar(16) unique not NULL,"
+    private Context mContext;
+    private static final String SQL_TABLE_BOOK = "create table book ("
+            + "_id integer primary key autoincrement, "
+            + "isbn_id varchar(16) unique not NULL, "
             + "title nvarchar(60), "
             + "subtitle nvarchar(60), "
             + "author nvarchar(60), "
             + "publisher nvarchar(60), "
-            + "publish_date  datetime(16), "
-            + "isbn_13  varchar(20),"
-            +
-                                    "category varchar(8), " +
-                                    //"title varchar(30), "+
-                                    "category_id  varchar(16), " +
-                                    //"author varchar(50), "+
-                                    "bought_date  varchar(12), " +
-                                    "applicant_dep  varchar(12), " +
-                                    "applicant  varchar(8), " +
-                                    "actual_price varchar(7)," +
-                                    "borrower_dep  varchar(12), " +
-                                    "borrower  varchar(12), " +
-                                    "borrowing_date  varchar(12), " +
-                                    "applicant_id varchar(6) ,"+
-                                    "applicant_email varchar(20) ,"+
-                                    "borrower_id varchar(6),"+
-                                    "borrower_email varchar(20),"+
+            + "publish_date  varchar(12), "//2012-08-06, varchar?? or date?
+            + "isbn_13  varchar(20), "//978 71....
+            + "price float(7), "
 
-                                    "author_info varchar(100), "+
-                                    //"publisher  varchar(30), "+
-                                    //"publish_date  datetime(16), "+
-                                    //"isbn  varchar(20)," +
-                                    "page  integer(5), "+
-                                    "rate  integer(1)," +
-                                    "tag  varchar(30), " +
-                                    "content  varchar(300), " +
-                                    "summary  varchar(100), " +
-                                    "price float(7),"+
-                                    "bitmap  varchar(100))";
+            + "category nvarchar(20), "//综合， 测试，研发...
+            + "category_id  varchar(16), "//CKT-CD ZH-0001
+            + "bought_date  varchar(12), " //varchar?? or date?
+            + "applicant_id varchar(10) ,"//N222xxxx
+            + "applicant_name  nvarchar(20), "
+            + "applicant_email varchar(30) ,"
+            + "applicant_dep  nvarchar(20), "
+            + "actual_price float(7), "  //is float or varchar?
 
-    /*private String TABLE_SQL_BORROW = "create table borrow (_id integer primary key autoincrement, " +
+            + "borrower_id varchar(10), "
+            + "borrower_name  nvarchar(20), "
+            + "borrower_email varchar(20), "
+            + "borrower_dep  nvarchar(20), "
+            + "borrowed_date  varchar(12), " //varchar?? or date?
+
+            + "author_info nvarchar(200), "
+            + "book_pages  integer(5), "
+            + "douban_rate  float(5), " //rate is float ? e.g 5.3,  8.6
+            + "douban_tag  nvarchar(30), "
+            //+ "content  nvarchar(1000), " //maybe too large, not used.
+            //+ "summary  nvarchar(1000), " //maybe too large, not used.
+            + "book_bitmap  blob)";
+
+    //not used
+    /*private String SQL_TABLE_BORROW = "create table borrow (_id integer primary key autoincrement, " +
             "book_id varchar(8)," +
             "staff_id varchar(6)," +
             "library_date varchar(16)," +
             "expire_time varchar(16))";*/
 
-    private String TABLE_SQL_STAFF = "create table staff (_id integer primary key autoincrement, "+
-                                        "name varchar(8)," +
-                                        "staff_department varchar(8)," +
-                                        "staff_email varchar(20) unique,"+
-                                        "staff_id varchar(6) unique not NULL)";
-    private Context mContext;
+    private static final String SQL_TABLE_STAFF = "create table staff ("
+            + "_id integer primary key autoincrement, "
+            + "staff_id varchar(10) unique not NULL)"
+            + "staff_name nvarchar(20), "
+            + "staff_email varchar(30), "
+            + "staff_dep nvarchar(20))";
+
+
     public BookInfoDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         mContext = context;
@@ -82,9 +79,9 @@ public class BookInfoDataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-          db.execSQL(TABLE_SQL_BOOK);
-          db.execSQL(TABLE_SQL_STAFF);
-          //db.execSQL(TABLE_SQL_BORROW);
+
+          db.execSQL(SQL_TABLE_BOOK);
+          db.execSQL(SQL_TABLE_STAFF);
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+//import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.ckt.shrimp.controller.BookController;
 import com.ckt.shrimp.utils.Book;
+import com.ckt.shrimp.utils.Log;
 import com.ckt.shrimp.utils.BookUtil;
 import java.util.Calendar;
 
@@ -127,7 +128,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         if (mSeleCategoryEng != null ) {
             int count = mSeleCategoryEng.length;
             for (int i = 0; i < count; i++) {
-                log("mSeleCategoryEng[ " + i + "] = " + mSeleCategoryEng[i]);
+                Log.e(this, "mSeleCategoryEng[ " + i + "] = " + mSeleCategoryEng[i]);
             }
         }//debug-end
     }
@@ -203,7 +204,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        log("requestCode = " + requestCode +", resultCode = " + resultCode);
+        Log.e(this, "requestCode = " + requestCode +", resultCode = " + resultCode);
         //process the result of scanning, and show the result for debugging.
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
@@ -216,7 +217,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                     mProgressDialog.setMessage(getResources().getString(R.string.notice_read_bookinfo));
                     mProgressDialog.show();
                     String urlStr = DOUBAN_URL + scanResult;
-                    log("urlStr : " + urlStr);
+                    Log.e(this, "urlStr : " + urlStr);
 
                     //Start a new thread to download the book info.
                     new LoadParseBookThread(urlStr).start();
@@ -243,10 +244,10 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         }
 
         public void run() {
-            log("LoadParseBookThread run(): url = " + url);
+            Log.e(this, "LoadParseBookThread run(): url = " + url);
             Message msg = Message.obtain();
             String result = BookUtil.getHttpRequest(url);
-            log("getHttpRequest(): " + result);
+            Log.e(this, "getHttpRequest(): " + result);
             try {
                 Book book = new BookUtil().parseBookInfo(result);
                 //send the message to UI thread, notify the downloading info.
@@ -284,7 +285,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         //Toast.makeText(BooksPutIn.this, parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
         mSeleCategory = parent.getItemAtPosition(pos).toString();
         posCategoryIndex = pos;
-        log(posCategoryIndex + ",  mSeleCategory");
+        Log.e(this, posCategoryIndex + ":  mSeleCategory");
         //mBooksInfoWrap.setBooKCategory(parent.getItemAtPosition(pos).toString());//get the book category.
     }
 
@@ -359,9 +360,9 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         scanResult.append(book.getTitle());
         scanResult.append("\n");
         //subtitle
-        log("getSubTitle = " + book.getSubTitle().isEmpty() );
+        Log.e(this, "getSubTitle = " + book.getSubTitle().isEmpty() );
         if (book.getSubTitle() != null && !book.getSubTitle().isEmpty()) {
-            log("====here======");
+            Log.e(this, "====here======");
             scanResult.append(book.getSubTitle());
             scanResult.append("\n");
         }
@@ -376,7 +377,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         //publish date
         scanResult.append(book.getPrice());
 
-        log("RESULT: " + scanResult);
+        Log.e(this, "RESULT: " + scanResult);
         mTextScanIsbn.setText(scanResult.toString());
     }
 
@@ -396,14 +397,17 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         return null;
     }
 
+/*
+    //not used yet, see @Log.java
     public static void log(String str) {
         Log.e(TAG, str);
     }
+*/
 
     private void dump(Book book) {
         //firstly, book's isbn info
-        log("======== DUMP START ============= \n");
-        log(" Book id: " + book.getId()
+        Log.e(this, "======== DUMP START ============= \n");
+        Log.e(this, " Book id: " + book.getId()
         +"\n Book ISBN: " + book.getISBN()
         +"\n Book Title: " + book.getTitle()
         +"\n Book SubTitle: " + book.getSubTitle()
@@ -412,17 +416,17 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         +"\n Book Price: " + book.getPrice());
 
         //secondly, the other book info.
-        log(" Book Category: " + book.getBooKCategory()
+        Log.e(this, " Book Category: " + book.getBooKCategory()
         +"\n Book Category Id: " + book.getBookCategoryId()
         +"\n Actual Price: " + book.getBookActualPrice()
         +"\n Bought Date: " + book.getBookBoughtDate());
 
         //third, the staff who bought book.
-        log(" Staff id: " + book.getBookBoughtStaffId()
+        Log.e(this, " Staff id: " + book.getBookBoughtStaffId()
         +"\n Staff name: " + book.getBookApplicantName()
         +"\n Staff email: " + book.getBookBoughtStaffEmail()
         +"\n Staff dep: " + book.getBookApplicantDep());
 
-        log("======== DUMP END ============= \n");
+        Log.e(this, "======== DUMP END ============= \n");
     }
 }

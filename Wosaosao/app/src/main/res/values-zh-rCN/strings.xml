@@ -48,15 +48,16 @@
     <string name="year">Year</string>
     <string name="month">Month</string>
     <string name="day">Day</string>
-    <string name="borrow_success">借书成功.....</string>
+
 
     <!-- add strings for notice-->
-    <string name="notice_not_found_book">没有找到这本书!</string>
+    <string name="notice_not_found_book">没有找到这本书！</string>
     <string name="notice_read_bookinfo">请稍候，正在读取信息...</string>
     <string name="notice_network_error">网络异常，请检查你的网络连接!</string>
     <string name="notice_get_staff_info_error">获取职员二维码信息有误，请重新扫描</string>
     <string name="notice_success_insert_staff">职員信息添加成功！</string>
     <string name="notice_failed_insert_staff">职員信息添加失败！</string>
-
+    <string name="notice_borrow_success">借阅成功！</string>
+    <string name="notice_borrow_failed">借阅失败！</string>
 
 </resources>

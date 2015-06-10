@@ -57,8 +57,6 @@
     <string name="year">Year</string>
     <string name="month">Month</string>
     <string name="day">Day</string>
-    <!-- jerry add -->
-    <string name="borrow_success">borrow success......</string>
 
     <!-- add the string for ScanningActivity's button book_lending_ok-->
     <string name="lending_ok">Add Info</string>
@@ -78,6 +76,9 @@
     <string name="notice_get_staff_info_error">The info of the two-dimension code is error, please scan it again!</string>
     <string name="notice_success_insert_staff">Insert staff to Success... ...</string>
     <string name="notice_failed_insert_staff">Insert staff to Failed... ...！</string>
+    <string name="notice_borrow_success">borrow success!</string>
+    <string name="notice_borrow_failed">borrow failed!</string>
+
 
 
 </resources>

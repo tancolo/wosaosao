@@ -156,7 +156,7 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
             sBook.setSubTitle(subTitle);
             format2text(sBook);
         }else {
-            Toast.makeText(ScanningActivity.this, "查无此书。。。。。", Toast.LENGTH_LONG).show();
+            Toast.makeText(ScanningActivity.this, getResources().getString(R.string.notice_not_found_book), Toast.LENGTH_LONG).show();
         }
     }
 

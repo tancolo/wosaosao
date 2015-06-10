@@ -35,7 +35,7 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
     private TextView mTextScanStaff = null;
     private Book mBorrowedBookInfo = new Book();
 
-    private static final String TAG = "DEBUG_SAO";
+    private static final String TAG = "ScanningActivity";
     private int mStartActivityType = -1;// 1: borrow book; 2: return book;
 
     @Override
@@ -70,13 +70,13 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
         int viewId = view.getId();
         switch(viewId) {
             case R.id.scan_ISBN:
-                //打开扫描界面扫描条形码
+                //Open the capture UI, scan the bar code of ISBN.
                 Intent openCameraIntent_ISBN = new Intent(ScanningActivity.this, CaptureActivity.class);
                 startActivityForResult(openCameraIntent_ISBN, BookUtil.RESULT_ISBN);
                 break;
             case R.id.scan_staff_info:
                 //call zxing API
-                //打开扫描界面扫描二维码
+                //Open the capture UI, scan the  two-dimension code.
                 Intent openCameraIntent_stuff = new Intent(ScanningActivity.this, CaptureActivity.class);
                 startActivityForResult(openCameraIntent_stuff, BookUtil.RESULT_STUFF);
                 break;
@@ -91,9 +91,9 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
                 Toast.makeText(ScanningActivity.this, "isbn........." + mBorrowedBookInfo.getISBN(), Toast.LENGTH_LONG).show();
                 boolean borrowSuccess = new BookController(this).lendingBook(mBorrowedBookInfo.getISBN(),values);
                 if(borrowSuccess){
-                    Toast.makeText(ScanningActivity.this, "借阅成功.........", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ScanningActivity.this, getResources().getString(R.string.notice_borrow_success), Toast.LENGTH_LONG).show();
                 }else {
-                    Toast.makeText(ScanningActivity.this, "借阅失败.........", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ScanningActivity.this, getResources().getString(R.string.notice_borrow_failed), Toast.LENGTH_LONG).show();
                 }
                 break;
             default:
@@ -131,7 +131,7 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
                 mTextScanStaff.setText(scanResult);//for showing staff info
                 //parser the scan result.
                 if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, mBorrowedBookInfo, null)) {
-                    Toast.makeText(ScanningActivity.this, "获取职员二维码信息有误，请重新扫描", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ScanningActivity.this, getResources().getString(R.string.notice_get_staff_info_error), Toast.LENGTH_LONG).show();
                 }
             }
         }

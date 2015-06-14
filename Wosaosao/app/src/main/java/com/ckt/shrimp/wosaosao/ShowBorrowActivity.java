@@ -27,7 +27,7 @@ public class ShowBorrowActivity extends ActionBarActivity implements AdapterView
         setContentView(R.layout.show_borrow);
         displayAll = (ListView)findViewById(R.id.lv_borrow);
 
-        bookController = new BookController(this);
+        //bookController = new BookController(this);
         BorrowDetailActivity.controller = bookController;
         Cursor cursor =bookController.queryAllBorrow();
         Toast.makeText(this,"count :" + cursor.getCount(),Toast.LENGTH_SHORT).show();

@@ -19,47 +19,6 @@ import android.os.Parcelable;
  *implements the Parcelable, using for expending.
  */
 public class Book implements Parcelable {
-    //wiki need
-    //图书所属类别
-    private String booKCategory;
-
-    //图书所属类别编号
-    private String bookCategoryId;
-
-    //图书购买时间
-    private String bookBoughtDate;
-
-    //图书申请购买部门
-    private String bookApplicantDep;
-
-    //图书购买申请者name
-    private String bookApplicantName;
-
-    //图书实际购买金额
-    private String bookActualPrice;
-
-    //图书借阅者部门
-    private String bookBorrowerDep;
-
-    //图书借阅人name
-    private String bookBorrower;
-
-    //图书借出时间
-    private String bookBorrowingDate;
-
-    //add other book info.
-    //图书购买申请者id
-    private String bookBoughtStaffId;
-
-    //图书购买申请者email
-    private String bookBoughtStaffEmail;
-
-    //图书借阅人 id
-    private String bookBorrowerId;
-
-    //图书借阅者email
-    private String bookBorrowerEmail;
-
 
     //Basic Book info, we get it from website (Douban). Very important.
     //using key values.
@@ -84,22 +43,71 @@ public class Book implements Parcelable {
     //图书ISBN码
     private String ISBN;
 
+    //图书价格
+    private String Price;
+
     //图书图片
     private Bitmap Bitmap;
 
-    //图书价格
-    private String Price;
+
+    //using for wiki on website
+    //购买信息
+    //图书所属类别
+    private String booKCategory;
+
+    //图书所属类别编号
+    private String bookCategoryId;
+
+    //图书购买时间
+    private String bookBoughtDate;
+
+    //图书购买申请者id
+    private String bookBoughtStaffId;
+
+    //图书购买申请者name
+    private String bookApplicantName;
+
+    //图书购买申请者email
+    private String bookBoughtStaffEmail;
+
+    //图书申请购买部门
+    private String bookApplicantDep;
+
+    //图书实际购买金额
+    private String bookActualPrice;
+
+
+    //借阅信息
+    //图书借阅人 id
+    private String bookBorrowerId;
+
+    //图书借阅人name
+    private String bookBorrower;
+
+    //图书借阅者email
+    private String bookBorrowerEmail;
+
+    //图书借阅者部门
+    private String bookBorrowerDep;
+
+    //图书借出时间
+    private String bookBorrowingDate;
+
+
+    //other info of douban book, need to add database
+    //图书页数
+    private String Page;
+
+    //图书评分
+    private String Rate;
+
+    //图书标签
+    private String Tag;
 
 
     //not using key value. You can save these values if you want.
     //作者信息
     private String AuthorInfo;
-    //图书页数
-    private String Page;
-    //图书评分
-    private String Rate;
-    //图书标签
-    private String Tag;
     //图书目录
     private String Content;
     //图书摘要
@@ -364,12 +372,13 @@ public class Book implements Parcelable {
             bookInfo.Bitmap = source.readParcelable(Bitmap.class.getClassLoader());
             bookInfo.Price = source.readString();
 
-            //It should add other book info. But I don't add those info at present.
-            /*bookInfo.Summary = source.readString();
-            bookInfo.AuthorInfo = source.readString();
             bookInfo.Page = source.readString();
             bookInfo.Rate = source.readString();
             bookInfo.Tag = source.readString();
+
+            //It should add other book info. But I don't add those info at present.
+            /*bookInfo.Summary = source.readString();
+            bookInfo.AuthorInfo = source.readString();
             bookInfo.Content = source.readString();
             */
 
@@ -395,13 +404,14 @@ public class Book implements Parcelable {
         dest.writeParcelable(Bitmap, flags);
         dest.writeString(Price);
 
+        dest.writeString(Page);
+        dest.writeString(Rate);
+        dest.writeString(Tag);
+
         //add other book info.but I don't add those info at present.
         /*
         dest.writeString(Summary);
         dest.writeString(AuthorInfo);
-        dest.writeString(Page);
-        dest.writeString(Rate);
-        dest.writeString(Tag);
         dest.writeString(Content);
         */
     }

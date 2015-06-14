@@ -18,7 +18,8 @@ import com.ckt.shrimp.database.BookInfoDataBaseHelper;
  * So this class is not used from now on.
  */
 
-public class MyDbProvider extends ContentProvider{
+public class MyDbProvider extends ContentProvider {
+
     private final static int BOOK = 1;
     private final static int STAFF = 2;
     private BookInfoDataBaseHelper bookHelper;
@@ -26,13 +27,13 @@ public class MyDbProvider extends ContentProvider{
     @Override
     public boolean onCreate() {
         bookHelper = new BookInfoDataBaseHelper(this.getContext(),"saosao",null,1);
-        BookController.bookHelper = bookHelper;
+        //BookController.bookHelper = bookHelper;
         return false;
     }
     private static UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
-        matcher.addURI(BookUtil.bookAuthority,"book",BOOK);
-        matcher.addURI(BookUtil.bookAuthority,"staff",STAFF);
+        matcher.addURI(BookUtil.bookAuthority,"books",BOOK);
+        matcher.addURI(BookUtil.bookAuthority,"staffs",STAFF);
     }
 
     @Override

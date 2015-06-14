@@ -82,10 +82,10 @@ public class TestExportWikiProvider extends ContentProvider {
                     + InfoContents.BOOK_CATEGORY_ID + " TEXT NOT NULL, "
                     + InfoContents.BOOK_BOUGHT_TIME + "LONG DEFAULT 0, "
                     + InfoContents.BOOK_APPLICANT_DEPARTMENT + " TEXT NOT NULL, "
-                    + InfoContents.BOOK_APPLICANT + " TEXT NOT NULL, "
+                    + InfoContents.BOOK_APPLICANT_NAME + " TEXT NOT NULL, "
                     + InfoContents.BOOK_ACTUAL_PRICE_ + " TEXT NOT NULL, "
                     + InfoContents.BOOK_BORROWING_DEP + " TEXT NOT NULL, "
-                    + InfoContents.BOOK_BORROWER + " TEXT NOT NULL, "
+                    + InfoContents.BOOK_BORROWER_NAME + " TEXT NOT NULL, "
                     + InfoContents.BOOK_BORROWING_DATE + " LONG DEFAULT 0 "
                     + ");" );
             if (DBG) log("dbh.createBooksInfoTable:-");

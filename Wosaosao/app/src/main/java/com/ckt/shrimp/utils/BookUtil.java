@@ -6,13 +6,9 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-
-import com.ckt.shrimp.wosaosao.BooksPutIn;
-import com.ckt.shrimp.wosaosao.ScanningActivity;
-
+import com.ckt.shrimp.database.InfoContents;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,11 +17,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+/** 2015.06.14 add the description.
+ * This class's main job is get the book info from JSON.
+ *
+ * should add the timeout of the http connection?
+ */
 public class BookUtil {
 
+    //used for ContentProvider
    public final static String bookAuthority = "com.ckt.saosao.authority";
-   public final static Uri BOOK_URI = Uri.parse("content://"+bookAuthority+"/book");
-   public final static Uri STAFF_URI = Uri.parse("content://"+bookAuthority+"/staff");
+   public final static Uri BOOK_URI = Uri.parse("content://"+bookAuthority+"/books");
+   public final static Uri STAFF_URI = Uri.parse("content://"+bookAuthority+"/staffs");
 
 
    public static final int RETURN_ERROR = -1;
@@ -47,12 +49,17 @@ public class BookUtil {
         Bitmap bm = null;
         InputStream is = null;
         BufferedInputStream bis = null;
+        Log.e(this, "downLoadBitmap: bmurl " + bmurl);
+
         try{
             URL  url = new URL(bmurl);
             URLConnection connection = url.openConnection();
             bis = new BufferedInputStream(connection.getInputStream());
             //Transform the byte stream into Bitmap
             bm = BitmapFactory.decodeStream(bis);
+
+            //close the connection
+            //connection.disconnect(); //wrong api
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -81,23 +88,24 @@ public class BookUtil {
             //Getting the JSONObject from the result string.
             //key values
             JSONObject mess = new JSONObject(str);
-            info.setId(mess.getString("id"));
-            info.setTitle(mess.getString("title"));
-            info.setSubTitle(mess.getString("subtitle"));//add by tancolo
-            info.setAuthor(parseAuthor(mess.getJSONArray("author")));
-            info.setPublisher(mess.getString("publisher"));
-            info.setPublishDate(mess.getString("pubdate"));
-            info.setISBN(mess.getString("isbn13"));
-            info.setBitmap(downLoadBitmap(mess.getString("image")));//bitmap
-            info.setPrice(mess.getString("price"));
+            info.setId(mess.getString(InfoContents.BOOK_ID));
+            info.setTitle(mess.getString(InfoContents.BOOK_TITLE));
+            info.setSubTitle(mess.getString(InfoContents.BOOK_SUBTITLE));
+            info.setAuthor(parseAuthor(mess.getJSONArray(InfoContents.BOOK_AUTHOR)));
+            info.setPublisher(mess.getString(InfoContents.BOOK_PUBLISHER));
+            info.setPublishDate(mess.getString(InfoContents.BOOK_PUBLISHDATE));
+            info.setISBN(mess.getString(InfoContents.BOOK_ISBN));
+            info.setPrice(mess.getString(InfoContents.BOOK_PRICE));
+            info.setBitmap(downLoadBitmap(mess.getString(InfoContents.BOOK_BITMAP)));//bitmap
+            info.setPage(mess.getString(InfoContents.BOOK_PAGE));
+            info.setRate(mess.getJSONObject(InfoContents.BOOK_DOUBAN_RATE).getString(InfoContents.BOOK_DOUBAN_RATE_AVERAGE));
+            info.setTag(parseTags(mess.getJSONArray(InfoContents.BOOK_DOUBAN_TAG)));
 
-            //not used values, you can add it which you wanted.
-            info.setSummary(mess.getString("summary"));
-            info.setAuthorInfo(mess.getString("author_intro"));
-            info.setPage(mess.getString("pages"));
-            info.setContent(mess.getString("catalog"));
-            info.setRate(mess.getJSONObject("rating").getString("average"));
-            info.setTag(parseTags(mess.getJSONArray("tags")));
+            //not used values, you can add it to database which you wanted.
+            info.setSummary(mess.getString(InfoContents.BOOK_SUMMARY));
+            info.setAuthorInfo(mess.getString(InfoContents.BOOK_AUTHORINFO));
+            info.setContent(mess.getString(InfoContents.BOOK_CONTENT));
+
         }catch (Exception e) {
             e.printStackTrace();
             return null;

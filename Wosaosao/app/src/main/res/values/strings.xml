@@ -74,10 +74,12 @@
     <string name="notice_read_bookinfo">Please wait, reading information...</string>
     <string name="notice_network_error">Network Error, Please check the network!</string>
     <string name="notice_get_staff_info_error">The info of the two-dimension code is error, please scan it again!</string>
-    <string name="notice_success_insert_staff">Insert staff to Success... ...</string>
-    <string name="notice_failed_insert_staff">Insert staff to Failed... ...！</string>
-    <string name="notice_borrow_success">borrow success!</string>
-    <string name="notice_borrow_failed">borrow failed!</string>
+    <string name="notice_success_insert_staff">Add Staff Success... ...</string>
+    <string name="notice_failed_insert_staff">Add Staff Failure... ...</string>
+    <string name="notice_borrow_success">Borrow Success!</string>
+    <string name="notice_borrow_failed">Borrow Failed!</string>
+    <string name="notice_add_bookInfo_success">Add Book Success!</string>
+    <string name="notice_add_bookInfo_failed">Add Book Failure!</string>
 
 
 

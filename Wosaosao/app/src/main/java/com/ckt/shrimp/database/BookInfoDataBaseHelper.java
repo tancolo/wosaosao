@@ -3,6 +3,7 @@ package com.ckt.shrimp.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.ckt.shrimp.utils.Log;
 
 /**
  * Created by ckt on 06/03/15.
@@ -22,15 +23,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BookInfoDataBaseHelper extends SQLiteOpenHelper {
 
     private Context mContext;
-    private static final String SQL_TABLE_BOOK = "create table book ("
+    private static final int DATABASE_VERSION = 1;
+    //private static final String DATABASE_NAME = "wosaosao";
+
+    private static final String SQL_TABLE_BOOK = "create table books ("
             + "_id integer primary key autoincrement, "
-            + "isbn_id varchar(16) unique not NULL, "
+            + "id varchar(16) unique not NULL, "//book's id, not isbn.
             + "title nvarchar(60), "
             + "subtitle nvarchar(60), "
             + "author nvarchar(60), "
             + "publisher nvarchar(60), "
-            + "publish_date  varchar(12), "//2012-08-06, varchar?? or date?
-            + "isbn_13  varchar(20), "//978 71....
+            + "pubdate  varchar(12), "//2012-08-06, varchar?? or date?
+            + "isbn13  varchar(20), "//978 71....
             + "price float(7), "
 
             + "category nvarchar(20), "//综合， 测试，研发...
@@ -38,7 +42,7 @@ public class BookInfoDataBaseHelper extends SQLiteOpenHelper {
             + "bought_date  varchar(12), " //varchar?? or date?
             + "applicant_id varchar(10) ,"//N222xxxx
             + "applicant_name  nvarchar(20), "
-            + "applicant_email varchar(30) ,"
+            + "applicant_email varchar(30), "
             + "applicant_dep  nvarchar(20), "
             + "actual_price float(7), "  //is float or varchar?
 
@@ -48,13 +52,13 @@ public class BookInfoDataBaseHelper extends SQLiteOpenHelper {
             + "borrower_dep  nvarchar(20), "
             + "borrowed_date  varchar(12), " //varchar?? or date?
 
-            + "author_info nvarchar(200), "
-            + "book_pages  integer(5), "
-            + "douban_rate  float(5), " //rate is float ? e.g 5.3,  8.6
-            + "douban_tag  nvarchar(30), "
+            + "pages  integer(5), "
+            + "rating  float(5), " //rate is float ? e.g 5.3,  8.6
+            + "tags  nvarchar(100), "
+            //+ "author_info nvarchar(200), "//maybe too large, not used.
             //+ "content  nvarchar(1000), " //maybe too large, not used.
             //+ "summary  nvarchar(1000), " //maybe too large, not used.
-            + "book_bitmap  blob)";
+            + "image   blob)"; //image: bitmap for book.
 
     //not used
     /*private String SQL_TABLE_BORROW = "create table borrow (_id integer primary key autoincrement, " +
@@ -63,24 +67,40 @@ public class BookInfoDataBaseHelper extends SQLiteOpenHelper {
             "library_date varchar(16)," +
             "expire_time varchar(16))";*/
 
-    private static final String SQL_TABLE_STAFF = "create table staff ("
+    private static final String SQL_TABLE_STAFF = "create table staffs ("
             + "_id integer primary key autoincrement, "
-            + "staff_id varchar(10) unique not NULL)"
+            + "staff_id varchar(10) unique not NULL, "
             + "staff_name nvarchar(20), "
             + "staff_email varchar(30), "
             + "staff_dep nvarchar(20))";
 
-
     public BookInfoDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+
+        Log.e(this, "BookInfoDataBaseHelper: name = " + name);
+        mContext = context;
+    }
+
+    public BookInfoDataBaseHelper(Context context) {
+        super(context, InfoContents.DATABASE_NAME, null, DATABASE_VERSION);
+
+        Log.e(this, "BookInfoDataBaseHelper: name = " + InfoContents.DATABASE_NAME);
+        //Log.e(this, android.util.Log.getStackTraceString( new Throwable()));//debug stack
         mContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+    Log.e(this, "onCreate db = " + db
+    +"\n SQL_TABLE_BOOK = " + SQL_TABLE_BOOK
+    +"\n SQL_TABLE_STAFF = " + SQL_TABLE_STAFF +"\n");
 
-          db.execSQL(SQL_TABLE_BOOK);
-          db.execSQL(SQL_TABLE_STAFF);
+        try {
+            db.execSQL(SQL_TABLE_BOOK);
+            db.execSQL(SQL_TABLE_STAFF);
+        }catch (Exception exp) {
+            Log.e(this, "Error, Create Table books, staffs, tables are exist!!!");
+        }
     }
 
     @Override

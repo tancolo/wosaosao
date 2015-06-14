@@ -4,11 +4,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
-//import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ckt.shrimp.controller.BookController;
+import com.ckt.shrimp.controller.SaoGlobal;
+import com.ckt.shrimp.database.InfoContents;
 import com.ckt.shrimp.utils.Book;
 import com.ckt.shrimp.utils.Log;
 import com.ckt.shrimp.utils.BookUtil;
@@ -34,7 +36,7 @@ import com.zxing.activity.CaptureActivity;
 
 public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListener, View.OnClickListener,
  View.OnTouchListener {
-    private BookController  bookController;
+    //private BookController  bookController;
     private static final String TAG = "BooksPutIn";
     private static final int DATE_DIALOG_ID = 0x1000;
     //private static final int RESULT_ISBN = 1;
@@ -74,6 +76,10 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
     //API of Douban website
     private static final String DOUBAN_URL = "https://api.douban.com/v2/book/isbn/:";
     private static final String CAPTURE_RESULT = "result";
+
+    //SaoGlobal
+    SaoGlobal mSaoGlobal;
+    BookController mBookController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +137,10 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                 Log.e(this, "mSeleCategoryEng[ " + i + "] = " + mSeleCategoryEng[i]);
             }
         }//debug-end
+
+        Log.e(this, "get instances of SaoGlobal & BookController");
+        mSaoGlobal = SaoGlobal.getInstance();
+        mBookController = BookController.getInstance();
     }
 
     private Handler mHandler = new Handler() {
@@ -166,8 +176,8 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
             case R.id.scan_staff_info:
                 //call zxing API
                 //Open the capture UI, scan the  two-dimension code.
-                Intent openCameraIntent_stuff = new Intent(BooksPutIn.this, CaptureActivity.class);
-                startActivityForResult(openCameraIntent_stuff, BookUtil.RESULT_STUFF);
+                Intent openCameraIntent_staff = new Intent(BooksPutIn.this, CaptureActivity.class);
+                startActivityForResult(openCameraIntent_staff, BookUtil.RESULT_STUFF);
                 break;
             case R.id.add_all_info:
                 //get all books info, the class BooksInfoWrap contains isbn info and the inputting info.
@@ -183,17 +193,20 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
                 mBooksInfoWrap.setBookCategoryId(mSeleCategoryEng[posCategoryIndex] + mCategoryIndexEdit.getText().toString());//e.g CKT-CD YF-BC-001
                 mBooksInfoWrap.setBookActualPrice(mActualPriceEdit.getText().toString());// e.g 28.50
                 mBooksInfoWrap.setBookBoughtDate(mBookBoughtDate.getText().toString());//get the bought date.
+
                 //dump all Book info
                 dump(mBooksInfoWrap);
-//
-//                if(bookController != null){
-//                 Uri u =  bookController.addBook(mBooksInfoWrap);
-//                  if (u != null){
-//                      Toast.makeText(this,"add success",Toast.LENGTH_SHORT).show();
-//                  }else {
-//                      Toast.makeText(this,"add not success",Toast.LENGTH_SHORT).show();
-//                  }
-//                }
+
+                if(mBookController != null) {
+                  int result =  mBookController.addBook(mBooksInfoWrap);
+                  if (result != InfoContents.RETURN_ERROR) {
+                      Toast.makeText(this, getResources().getString(R.string.notice_add_bookInfo_success),
+                              Toast.LENGTH_SHORT).show();
+                  }else {
+                      Toast.makeText(this, getResources().getString(R.string.notice_add_bookInfo_failed),
+                              Toast.LENGTH_SHORT).show();
+                  }
+                }
                 break;
             default:
                 break;
@@ -227,7 +240,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
             }else { // value 2 means two dimension code about stuff info.
                 mTextScanStuff.setText(scanResult);
                 //need to parse staff info from the 2D code. static function
-                //need to pass the BookWrap
+                //need to pass the BookInfoWrap
                 if(BookUtil.RETURN_OK != ParseAndWriteInfo.parseStaffInfo(scanResult, mBooksInfoWrap, null)) {
                     Toast.makeText(BooksPutIn.this, getResources().getString(R.string.notice_get_staff_info_error), Toast.LENGTH_LONG).show();
                 }
@@ -258,6 +271,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
             mHandler.sendMessage(msg);
         }
     }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -328,20 +342,23 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
     private void saveBooksInfo(Book book) {
         //below info will save to data base.
         mBooksInfoWrap.setId(book.getId());
-        mBooksInfoWrap.setISBN(book.getISBN());
         mBooksInfoWrap.setTitle(book.getTitle());
         mBooksInfoWrap.setSubTitle(book.getSubTitle());
         mBooksInfoWrap.setAuthor(book.getAuthor());
         mBooksInfoWrap.setPublisher(book.getPublisher());
-        mBooksInfoWrap.setPrice(book.getPrice());//may be not save, because the actual price.
+        mBooksInfoWrap.setPublishDate(book.getPublishDate());
+        mBooksInfoWrap.setISBN(book.getISBN());
+        mBooksInfoWrap.setPrice(book.getPrice());
+        mBooksInfoWrap.setBitmap(book.getBitmap());
+
+        mBooksInfoWrap.setPage(book.getPage());
+        mBooksInfoWrap.setRate(book.getRate());
+        mBooksInfoWrap.setTag(book.getTag());
 
         //below info is not save to data base
-        mBooksInfoWrap.setPage(book.getPage());
         mBooksInfoWrap.setAuthorInfo(book.getAuthorInfo());
-        mBooksInfoWrap.setPublishDate(book.getPublishDate());
         //and ignore the others info, not save. such as
-        //Rate, tag, Content, Summary, bitmap
-        // ... ...
+        //Content, Summary... ...
     }
 
     /**
@@ -356,13 +373,14 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         StringBuffer scanResult = new StringBuffer();
         //isbn
         scanResult.append(book.getISBN());
+        scanResult.append("\n");
         //title
         scanResult.append(book.getTitle());
         scanResult.append("\n");
         //subtitle
-        Log.e(this, "getSubTitle = " + book.getSubTitle().isEmpty() );
+        //Log.e(this, "getSubTitle = " + book.getSubTitle().isEmpty() );
         if (book.getSubTitle() != null && !book.getSubTitle().isEmpty()) {
-            Log.e(this, "====here======");
+            //Log.e(this, "====here======");
             scanResult.append(book.getSubTitle());
             scanResult.append("\n");
         }
@@ -377,7 +395,7 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         //publish date
         scanResult.append(book.getPrice());
 
-        Log.e(this, "RESULT: " + scanResult);
+        Log.e(this, "RESULT: " + scanResult.toString() + "\n\n");
         mTextScanIsbn.setText(scanResult.toString());
     }
 
@@ -413,13 +431,22 @@ public class BooksPutIn extends ActionBarActivity implements OnItemSelectedListe
         +"\n Book SubTitle: " + book.getSubTitle()
         +"\n Book Author: " + book.getAuthor()
         +"\n Book Publisher: " + book.getPublisher()
-        +"\n Book Price: " + book.getPrice());
+        +"\n Book Publish date: " + book.getPublishDate()
+        +"\n Book Price: " + book.getPrice()
+
+        +"\n Book bitmap: " + book.getBitmap()
+        +"\n Book pages: " + book.getPage()
+        +"\n Book rates: " + book.getRate()
+        +"\n Book tags: " + book.getTag()
+        );
+
 
         //secondly, the other book info.
         Log.e(this, " Book Category: " + book.getBooKCategory()
         +"\n Book Category Id: " + book.getBookCategoryId()
         +"\n Actual Price: " + book.getBookActualPrice()
         +"\n Bought Date: " + book.getBookBoughtDate());
+
 
         //third, the staff who bought book.
         Log.e(this, " Staff id: " + book.getBookBoughtStaffId()

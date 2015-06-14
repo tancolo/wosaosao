@@ -89,12 +89,12 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
                 values.put("borrower_email",mBorrowedBookInfo.getBookBoughtStaffEmail());
                 values.put("borrower",mBorrowedBookInfo.getBookBorrower());
                 Toast.makeText(ScanningActivity.this, "isbn........." + mBorrowedBookInfo.getISBN(), Toast.LENGTH_LONG).show();
-                boolean borrowSuccess = new BookController(this).lendingBook(mBorrowedBookInfo.getISBN(),values);
+                /*boolean borrowSuccess = new BookController(this).lendingBook(mBorrowedBookInfo.getISBN(),values);
                 if(borrowSuccess){
                     Toast.makeText(ScanningActivity.this, getResources().getString(R.string.notice_borrow_success), Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(ScanningActivity.this, getResources().getString(R.string.notice_borrow_failed), Toast.LENGTH_LONG).show();
-                }
+                }*/
                 break;
             default:
                 break;
@@ -139,7 +139,7 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
 
     private void searchInfoByBookId(Book sBook) {
         //need jerry to implement.
-       Cursor bookAlreadyInDb = new BookController(this).queryBorrowByBookISDN(sBook.getISBN());
+       /*Cursor bookAlreadyInDb = new BookController(this).queryBorrowByBookISDN(sBook.getISBN());
         if (bookAlreadyInDb != null && bookAlreadyInDb.getCount() !=0){
             bookAlreadyInDb.moveToNext();
             String isbn =  bookAlreadyInDb.getString(bookAlreadyInDb.getColumnIndex("isbn"));
@@ -157,7 +157,7 @@ public class ScanningActivity extends ActionBarActivity implements View.OnClickL
             format2text(sBook);
         }else {
             Toast.makeText(ScanningActivity.this, getResources().getString(R.string.notice_not_found_book), Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 
 

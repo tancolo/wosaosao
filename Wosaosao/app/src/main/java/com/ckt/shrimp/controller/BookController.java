@@ -5,12 +5,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.ckt.shrimp.database.BookInfoDataBaseHelper;
-import com.ckt.shrimp.utils.Book;
-import com.ckt.shrimp.utils.BookUtil;
+import com.ckt.shrimp.database.InfoContents;
+import com.ckt.shrimp.utils.*;
 import com.ckt.shrimp.wosaosao.R;
 
 /**
@@ -18,20 +16,60 @@ import com.ckt.shrimp.wosaosao.R;
  */
 public class BookController {
 
-    private static final String TAG = "DEBUG_SAO";
+    private static final String TAG = "BookController";
     private Context mContext;
     private ContentResolver resolver;
-    public static BookInfoDataBaseHelper bookHelper;
+    private static BookController sInstance;
+
+    final private SaoGlobal mSaoGlobal;
+
+    public static  BookController init(SaoGlobal app) {
+        synchronized (BookController.class) {
+            if(sInstance == null) {
+                //throw new IllegalStateException("No BookController here!");
+                sInstance = new BookController(app);
+            }else {
+                log("init() called multiple times!  sInstance = " + sInstance);
+            }
+
+            return sInstance;
+        }
+    }
+
+    public static BookController getInstance() {
+        if (sInstance == null) {
+            throw new IllegalStateException("No SaoGlobal here!");
+        }
+
+        return sInstance;
+    }
 
 
-    public  BookController(Context c){
-        mContext = c;
+    private BookController(SaoGlobal app) {
+        Log.e(this, "BookController constructor!!!");
+        mSaoGlobal = app;
+        mContext = app.getContext();
         resolver = mContext.getContentResolver();
     }
 
-    public Uri addBook(Book book){
-        ContentValues v = fillContentValue(book);
-        return resolver.insert(BookUtil.BOOK_URI,v);
+    public int addBook(Book book) {
+        Log.e(this, "add book!!!");
+
+        ContentValues values = fillContentValue(book);
+        //get SQLiteDatabase object, and call the function insert.
+        try {
+            if (mSaoGlobal.getInstanceWritableDatabase() != null) {
+                Log.e(this, "insert the database... ...");
+                mSaoGlobal.getInstanceWritableDatabase().insert(InfoContents.BOOK_TABLE_NAME, null, values);
+            }
+        }catch (Exception exp) {
+            Log.e(this, "Insert data base Error!"
+            +"\n exp = " + exp);
+            mSaoGlobal.getInstanceWritableDatabase().close();
+            return InfoContents.RETURN_ERROR;
+        }
+
+        return InfoContents.RETURN_OK;
     }
 
     public boolean lendingBook(String isbn,ContentValues value){
@@ -57,7 +95,8 @@ public class BookController {
     }
 
     public boolean isBookBorrowed(String isbn){
-         Cursor c = bookHelper.getReadableDatabase().rawQuery("select * from book where isbn = " + isbn + " and borrower_id !=null", null);
+         Cursor c = mSaoGlobal.getInstanceBaseHelper().getReadableDatabase().rawQuery(
+                 "select * from book where isbn = " + isbn + " and borrower_id !=null", null);
         return  (c != null && c.getCount() != 0);
 
     }
@@ -73,20 +112,21 @@ public class BookController {
     }
 
 
-    public Cursor queryBook(String bookId){
+    public Cursor queryBook(String bookId) {
         return resolver.query(BookUtil.BOOK_URI,null,"book_id = ?",new String[]{bookId},null);
     }
 
-    public Cursor queryAllBorrow(){
-        if(bookHelper != null) {
-            return bookHelper.getReadableDatabase().rawQuery("select book.*,staff.* from book,staff  " +
-                    " where  book.staff_id=staff.staff_id", null);
+    public Cursor queryAllBorrow() {
+        if(mSaoGlobal.getInstanceBaseHelper() != null) {
+            return mSaoGlobal.getInstanceBaseHelper().getReadableDatabase().rawQuery(
+                    "select book.*,staff.* from book,staff  "
+                    + " where  book.staff_id=staff.staff_id", null);
         }
         return  null;
     }
 
 
-    public Cursor queryBorrowByBookId(String bookId){
+    public Cursor queryBorrowByBookId(String bookId) {
        if (resolver == null){
            return  null;
        }
@@ -94,49 +134,56 @@ public class BookController {
     }
 
 
-
-
-    //add other book info.
-    //图书购买申请者id
-    private String bookBoughtStaffId;
-    //图书购买申请者email
-    private String bookBoughtStaffEmail;
-    private ContentValues fillContentValue(Book book){
+    private ContentValues fillContentValue(Book book) {
         ContentValues values = new ContentValues();
-        //for wiki
-        values.put("category",book.getBooKCategory());
-        values.put("title",book.getTitle());
-        values.put("category_id",book.getBookCategoryId());
-        values.put("author",book.getAuthor());
-        values.put("bought_date",book.getBookBoughtDate());
-        values.put("applicant_dep",book.getBookApplicantDep());
-        values.put("applicant",book.getBookApplicantName());
-        values.put("actual_price",book.getBookActualPrice());
 
-        values.put("applicant_id",book.getBookBoughtStaffId());
-        values.put("applicant_email",book.getBookBoughtStaffEmail());
+        //book basic info
+        values.put(InfoContents.BOOK_ID, book.getId());
+        values.put(InfoContents.BOOK_TITLE, book.getTitle());
+        values.put(InfoContents.BOOK_SUBTITLE, book.getSubTitle());
+        values.put(InfoContents.BOOK_AUTHOR, book.getAuthor());
+        values.put(InfoContents.BOOK_PUBLISHER, book.getPublisher());
+        values.put(InfoContents.BOOK_PUBLISHDATE, book.getPublishDate());
+        values.put(InfoContents.BOOK_ISBN, book.getISBN());
+        values.put(InfoContents.BOOK_PRICE, book.getPrice());
 
-        values.put("book_id",book.getId());
-        values.put("subtitle",book.getSubTitle());
-        values.put("author_info",book.getAuthorInfo());
-        values.put("publisher",book.getPublisher());
-        values.put("publish_date",book.getPublishDate());
-        values.put("isbn",book.getISBN());
-        values.put("price",book.getPrice());
-        values.put("page",book.getPage());
-        values.put("rate",book.getRate());
-        values.put("tag",book.getTag());
-        values.put("content",book.getContent());
-        values.put("summary",book.getSummary());
+        //for wiki, category info
+        values.put(InfoContents.BOOK_CATEGORY, book.getBooKCategory());
+        values.put(InfoContents.BOOK_CATEGORY_ID, book.getBookCategoryId());
+        values.put(InfoContents.BOOK_BOUGHT_TIME, book.getBookBoughtDate());
+        values.put(InfoContents.BOOK_APPLICANT_ID, book.getBookBoughtStaffId());
+        values.put(InfoContents.BOOK_APPLICANT_NAME, book.getBookApplicantName());
+        values.put(InfoContents.BOOK_APPLICANT_EMAIL, book.getBookBoughtStaffEmail());
+        values.put(InfoContents.BOOK_APPLICANT_DEPARTMENT, book.getBookApplicantDep());
+        values.put(InfoContents.BOOK_ACTUAL_PRICE_, book.getBookActualPrice());
+
+        //borrower info
+        values.put(InfoContents.BOOK_BORROWER_ID, book.getBookBorrowerId());
+        values.put(InfoContents.BOOK_BORROWER_NAME, book.getBookBorrower());
+        values.put(InfoContents.BOOK_BORROWER_EMAIL, book.getBookBorrowerEmail());
+        values.put(InfoContents.BOOK_BORROWING_DEP, book.getBookBorrowerDep());
+        values.put(InfoContents.BOOK_BORROWING_DATE, book.getBookBoughtDate());
+
+        //other info of book
+        values.put(InfoContents.BOOK_PAGE, book.getPage());
+        values.put(InfoContents.BOOK_DOUBAN_RATE, book.getRate());
+        values.put(InfoContents.BOOK_DOUBAN_TAG, book.getTag());
+
+        //bitmap, should save the binary, not Bitmap object. later add!!
+        //values.put(InfoContents.BOOK_BITMAP, book.getBitmap());
+
+        //return values
         return  values;
 
     }
 
     public Cursor queryBorrowByBookISDN(String isbn) {
-         if(bookHelper != null) {
-            Cursor c = bookHelper.getReadableDatabase().rawQuery("select book.* from book  " +
-                    " where  book.isbn= ?", new String[]{isbn});
-             if (c != null && c.getCount() != 0){
+         if(mSaoGlobal.getInstanceBaseHelper() != null) {
+            Cursor c = mSaoGlobal.getInstanceBaseHelper().getReadableDatabase().rawQuery(
+                    "select book.* from book  "
+                    + " where  book.isbn= ?", new String[]{isbn});
+
+             if (c != null && c.getCount() != 0) {
                  return  c;
              }
         };

@@ -9,8 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.ckt.shrimp.database.BookInfoDataBaseHelper;
+import com.ckt.shrimp.controller.SaoGlobal;
 import com.ckt.shrimp.utils.BookUtil;
+import com.ckt.shrimp.utils.Log;
 
 
 public class WosaoActivity extends ActionBarActivity implements View.OnClickListener {
@@ -21,7 +22,9 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
     private Button mBookPutIn;
     private Button mStaffPutIn;
 
-    BookInfoDataBaseHelper bookHelper;
+    //SaoGlobal.java
+    //Log.e(this, "")
+    SaoGlobal mSaoGlobal;
 
     private static final String SCANNING_CLASS = "./ScanningActivity";
     //private static final String BOOK_TEST_CLASS = "./ScanningActivity";
@@ -45,6 +48,11 @@ public class WosaoActivity extends ActionBarActivity implements View.OnClickList
         mBookPutIn.setOnClickListener(this);
 
         mStaffPutIn.setOnClickListener(this);
+
+        //new class SaoGlobal
+        Log.e(this, "new SaoGlobal...");
+        mSaoGlobal = new SaoGlobal(this);
+        mSaoGlobal.onCreate();
     }
 
     @Override

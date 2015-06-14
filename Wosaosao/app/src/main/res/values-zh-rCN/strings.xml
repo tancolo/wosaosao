@@ -59,5 +59,7 @@
     <string name="notice_failed_insert_staff">职員信息添加失败！</string>
     <string name="notice_borrow_success">借阅成功！</string>
     <string name="notice_borrow_failed">借阅失败！</string>
+    <string name="notice_add_bookInfo_success">书籍信息添加成功!</string>
+    <string name="notice_add_bookInfo_failed">书籍信息添加失败!</string>
 
 </resources>
